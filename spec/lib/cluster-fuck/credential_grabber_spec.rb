@@ -34,6 +34,7 @@ module ClusterFuck
 
     describe "when there is a ~/.fog file but no ~/.cluster-fuck" do
       before do
+        File.stub(:expand_path).with(CredentialGrabber::FOG_PATH).and_return(CredentialGrabber::FOG_PATH)
         credential_grabber.should_receive(:exists?).with(CredentialGrabber::FOG_PATH).and_return(true)
         YAML.should_receive(:load_file).with(CredentialGrabber::FOG_PATH).and_return(fog_credentials)
       end

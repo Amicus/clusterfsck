@@ -13,8 +13,8 @@ module ClusterFuck
     end
 
     def from_fog_file
-      if exists?(FOG_PATH)
-        fog_credentials = YAML.load_file(FOG_PATH)
+      if exists?(File.expand_path(FOG_PATH))
+        fog_credentials = YAML.load_file(File.expand_path(FOG_PATH))
         {
             access_key_id: fog_credentials[:default][:aws_access_key_id],
             secret_access_key: fog_credentials[:default][:aws_secret_access_key],
