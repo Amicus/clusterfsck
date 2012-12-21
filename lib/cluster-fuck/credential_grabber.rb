@@ -4,8 +4,12 @@ module ClusterFuck
     FOG_PATH = "~/.fog"
     CF_PATH = "~/.cluster-fuck"
 
+    def self.find
+      new.find
+    end
+
     def find
-      from_fog_file || from_cluster_fuck_file
+      from_cluster_fuck_file || from_fog_file
     end
 
     def from_fog_file

@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.homepage      = ""
 
   gem.add_dependency "aws-sdk"
-  gem.add_dependency "configliere"
+  gem.add_dependency "hashie"
 
   gem.add_development_dependency "rspec"
 
