@@ -2,6 +2,7 @@ require "cluster-fuck/version"
 
 module ClusterFuck
   CONFIG_BUCKET = 'amicus-config'
+  AMICUS_ENV = ENV['AMICUS_ENV'] || 'development'
 end
 
 require 'aws-sdk'
