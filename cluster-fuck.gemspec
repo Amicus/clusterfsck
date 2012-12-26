@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = ClusterFuck::VERSION
   gem.authors       = ["Topper Bowers"]
   gem.email         = ["topper@amicushq.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = "cluster-aware S3 and ZK based config getter/setter"
+  gem.summary       = ""
   gem.homepage      = ""
 
   gem.add_dependency "aws-sdk"
