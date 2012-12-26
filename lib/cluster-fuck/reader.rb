@@ -5,8 +5,8 @@ module ClusterFuck
     include S3Methods
 
     attr_reader :amicus_env
-    def initialize(amicus_env)
-      @amicus_env = amicus_env
+    def initialize
+      @amicus_env = ClusterFuck::AMICUS_ENV
     end
 
     def [](key)

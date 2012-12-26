@@ -3,8 +3,8 @@ module ClusterFuck
     include S3Methods
 
     attr_reader :amicus_env
-    def initialize(amicus_env)
-      @amicus_env = amicus_env
+    def initialize
+      @amicus_env = ClusterFuck::AMICUS_ENV
     end
 
     #todo, thread safety and process safety please
@@ -15,7 +15,7 @@ module ClusterFuck
     end
 
     def reader
-      @reader ||= Reader.new(amicus_env)
+      @reader ||= Reader.new
     end
   end
 

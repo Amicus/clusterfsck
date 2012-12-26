@@ -1,10 +1,10 @@
 module ClusterFuck
 
   describe Writer do
-    let(:amicus_env) { 'test' }
-    let(:reader) { Reader.new(amicus_env) }
+    let(:amicus_env) { 'development' }
+    let(:reader) { Reader.new }
     let(:mock_s3_obj) { mock(:s3_object, read: nil) }
-    let(:writer) { Writer.new(amicus_env) }
+    let(:writer) { Writer.new }
     let(:key) { 'tester' }
 
     before do
