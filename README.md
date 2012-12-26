@@ -39,12 +39,11 @@ Otherwise, it expects you to be on an EC2 instance and not have to setup credent
 ## Usage
 
 ```ruby
-reader = ClusterFuck::Reader.new(amicus_env) #could be development, production, staging, etc.
+reader = ClusterFuck::Reader.new
 reader[:stripe][:api_key] loads "config_bucket/amicus_env/stripe and returns the api_key from the hash
 ```
-
-
-## Contributing
+The ClusterFuck::Reader instance will automatically load the configuration for 
+the environment stored in the AMICUS_ENV environment variable on the host.
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
