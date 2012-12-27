@@ -20,7 +20,7 @@ module ClusterFuck
 
     describe "#set" do
       it "should write back a merged configuration" do
-        writer.should_receive(:s3_object).with(writer.full_path(key)).and_return(mock_s3_obj)
+        writer.should_receive(:s3_object).with(key).and_return(mock_s3_obj)
 
         mock_s3_obj.should_receive(:write).with(YAML.dump({
                   'foo' => 'bar',

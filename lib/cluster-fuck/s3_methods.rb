@@ -1,7 +1,8 @@
 module ClusterFuck
   module S3Methods
     def s3_object(object_name)
-      bucket.objects[object_name]
+      qualified_name = full_path(object_name)
+      return bucket.objects[qualified_name]
     end
 
     def bucket
@@ -16,9 +17,10 @@ module ClusterFuck
       AWS::S3.new(credentials) #could be nil, especially if on EC2
     end
 
-    def full_path(key)
-      "#{amicus_env}/#{key}"
-    end
+protected
 
+    def full_path(key)
+      "#{AMICUS_ENV}/#{key}"
+    end
   end
 end
