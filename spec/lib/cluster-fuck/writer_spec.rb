@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 module ClusterFuck
 
   describe Writer do
@@ -15,7 +17,7 @@ module ClusterFuck
             even: 'here'
           }
       }))
-      Reader.any_instance.stub(:s3_object).with("#{amicus_env}/#{key}").and_return(mock_s3_obj)
+      Reader.any_instance.stub(:s3_object).with("#{key}").and_return(mock_s3_obj)
     end
 
     describe "#set" do
@@ -38,5 +40,4 @@ module ClusterFuck
       end
     end
   end
-
 end
