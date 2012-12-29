@@ -14,10 +14,14 @@ module ClusterFuck
     end
 
     def s3
-      AWS::S3.new(credentials) #could be nil, especially if on EC2
+      if credentials
+        AWS::S3.new(credentials) #could be nil, especially if on EC2
+      else
+        AWS::S3.new
+      end
     end
 
-protected
+  protected
 
     def full_path(key)
       "#{AMICUS_ENV}/#{key}"

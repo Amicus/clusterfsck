@@ -6,14 +6,17 @@ module ClusterFuck
   end
 
   describe S3Methods do
-    let(:dummy_instance) { DummyClass.new }
     let(:amicus_env) { 'development' }
     let(:config_bucket) { ClusterFuck::CONFIG_BUCKET }
     let(:key) { 'test_key' }
+    let(:dummy_instance) { DummyClass.new }
+    let(:mock_bucket) { mock(:bucket) }
 
     it "should qualify the keys it gets with the namespace" do
-      object = dummy_instance.s3_object(key)
-      object.key.should == "#{amicus_env}/#{key}"
+      mock_bucket.stub(:objects) { { key => 'fail',
+                                    "#{amicus_env}/#{key}" => 'pass'} }
+      dummy_instance.stub(:bucket) { mock_bucket }
+      dummy_instance.s3_object(key).should == 'pass'
     end
   end
 end
