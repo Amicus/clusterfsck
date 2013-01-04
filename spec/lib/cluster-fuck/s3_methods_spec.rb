@@ -6,7 +6,7 @@ module ClusterFuck
   end
 
   describe S3Methods do
-    let(:amicus_env) { 'development' }
+    let(:amicus_env) { 'test' }
     let(:config_bucket) { ClusterFuck::CONFIG_BUCKET }
     let(:key) { 'test_key' }
     let(:dummy_instance) { DummyClass.new }

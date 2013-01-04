@@ -3,7 +3,7 @@ require 'spec_helper'
 module ClusterFuck
 
   describe Reader do
-    let(:amicus_env) { 'development' }
+    let(:amicus_env) { 'test' }
     let(:reader) { Reader.new }
     let(:mock_s3_obj) { mock(:s3_object, read: nil) }
 

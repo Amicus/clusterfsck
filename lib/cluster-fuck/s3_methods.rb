@@ -2,7 +2,7 @@ module ClusterFuck
   module S3Methods
     def s3_object(object_name)
       qualified_name = full_path(object_name)
-      return bucket.objects[qualified_name]
+      bucket.objects[qualified_name]
     end
 
     def bucket
