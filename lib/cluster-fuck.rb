@@ -9,6 +9,7 @@ require 'aws-sdk'
 require 'hashie'
 require 'yaml'
 
+require 'cluster-fuck/cli'
 require 'cluster-fuck/credential_grabber'
 require 'cluster-fuck/s3_methods'
 require 'cluster-fuck/configuration'
