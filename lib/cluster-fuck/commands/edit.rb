@@ -6,21 +6,20 @@ module ClusterFuck
       include Commander::UI
 
       attr_reader :key, :options
-
       def run_command(args, options)
         @key = args.first
         @options = options
 
-        new_yaml = ask_editor(YAML.dump(reader[key].to_hash))
-        writer.set(key, YAML.load(new_yaml))
+        new_yaml = ask_editor(YAML.dump(reader.read.to_hash))
+        writer.set(YAML.load(new_yaml))
       end
 
       def writer
-        @writer ||= ClusterFuck::Writer.new
+        @writer ||= ClusterFuck::Writer.new(key)
       end
 
       def reader
-        @reader ||= ClusterFuck::Reader.new
+        @reader ||= ClusterFuck::Reader.new(key)
       end
 
     end

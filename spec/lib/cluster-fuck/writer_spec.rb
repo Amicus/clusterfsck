@@ -4,19 +4,22 @@ module ClusterFuck
 
   describe Writer do
     let(:amicus_env) { 'development' }
-    let(:reader) { Reader.new }
-    let(:mock_s3_obj) { mock(:s3_object, read: nil) }
-    let(:writer) { Writer.new }
     let(:key) { 'tester' }
+    let(:reader) { Reader.new(key) }
+    let(:mock_s3_obj) { mock(:s3_object, read: nil) }
+    let(:writer) { Writer.new(key) }
 
     before do
-      mock_s3_obj.stub(:read).and_return(YAML.dump({
-          foo: 'bar',
-          deep: {
-            works: 'too',
-            even: 'here'
-          }
-      }))
+      mock_s3_obj.stub(
+          read: YAML.dump({
+            foo: 'bar',
+            deep: {
+              works: 'too',
+              even: 'here'
+            }
+          }),
+          versions: mock('versions', count: 3)
+      )
       Reader.any_instance.stub(:s3_object).with("#{key}").and_return(mock_s3_obj)
     end
 
@@ -32,7 +35,7 @@ module ClusterFuck
                   }
         }))
 
-        writer.set(key, {
+        writer.set({
             deep: {
                 even: 'changed'
             }
