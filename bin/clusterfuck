@@ -4,8 +4,7 @@ require 'commander/import'
 $LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), "../lib"))
 require "cluster-fuck/cli"
 
-
-program :version, '0.0.1'
+program :version, ClusterFuck::VERSION
 program :description, 'Amicus environment-aware configuration manager'
 
 #TODO: (topper) - fill in the help stuff
@@ -15,7 +14,7 @@ command :edit do |c|
   c.summary = ''
   c.description = ''
   c.example 'description', 'command example'
-  #c.option '--some-switch', 'Some switch that does something'
+  c.option '--force', 'force edit even if local file present'
   c.when_called ClusterFuck::Commands::Edit, :run_command
 end
 
@@ -28,36 +27,20 @@ command :create do |c|
   c.when_called ClusterFuck::Commands::Create, :run_command
 end
 
-command :read do |c|
-  c.syntax = 'clusterfuck read [options]'
+command :list do |c|
+  c.syntax = 'clusterfuck list'
   c.summary = ''
   c.description = ''
   c.example 'description', 'command example'
-  c.option '--some-switch', 'Some switch that does something'
-  c.action do |args, options|
-    # Do something or c.when_called Clusterfuck::Commands::Read,
-  end
+  #c.option '--some-switch', 'Some switch that does something'
+  c.when_called ClusterFuck::Commands::List, :run_command
 end
 
-command :cache do |c|
-  c.syntax = 'clusterfuck cache [options]'
+command :override do |c|
+  c.syntax = 'clusterfuck override [options]'
   c.summary = ''
   c.description = ''
   c.example 'description', 'command example'
-  c.option '--some-switch', 'Some switch that does something'
-  c.action do |args, options|
-    # Do something or c.when_called Clusterfuck::Commands::Cache,
-  end
+  #c.option '--some-switch', 'Some switch that does something'
+  c.when_called ClusterFuck::Commands::Override, :run_command
 end
-
-command :local do |c|
-  c.syntax = 'clusterfuck local [options]'
-  c.summary = ''
-  c.description = ''
-  c.example 'description', 'command example'
-  c.option '--some-switch', 'Some switch that does something'
-  c.action do |args, options|
-    # Do something or c.when_called Clusterfuck::Commands::Local
-  end
-end
-

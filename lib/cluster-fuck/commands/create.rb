@@ -7,7 +7,7 @@ module ClusterFuck
       include ClusterFuck::S3Methods
 
       attr_reader :key
-      def run_command(args, options = nil)
+      def run_command(args, options = {})
         @key = args.first
         obj = s3_object(key)
         raise ConflictError, "#{key} already exists!" if obj.exists?

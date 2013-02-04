@@ -5,7 +5,7 @@ module ClusterFuck
     class ConflictError < StandardError; end
 
     def s3_object(object_name)
-      bucket.objects[full_path(object_name)]
+      bucket.objects[full_s3_path(object_name)]
     end
 
     def bucket
@@ -28,11 +28,12 @@ module ClusterFuck
       bucket.objects.with_prefix(amicus_env).collect(&:key)
     end
 
-  protected
-
-    def full_path(key)
+    def full_s3_path(key)
       "#{amicus_env}/#{key}"
     end
+
+  protected
+
 
     def amicus_env
       AMICUS_ENV

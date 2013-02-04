@@ -38,6 +38,11 @@ module ClusterFuck::Commands
         subject.run_command(args)
       end
 
+      it "should error when it is locally overriden" do
+        subject.reader.stub(:has_local_override?).and_return(true)
+        ->() { subject.run_command(args) }.should raise_error(ArgumentError)
+      end
+
     end
   end
 end

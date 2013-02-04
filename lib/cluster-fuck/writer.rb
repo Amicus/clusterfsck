@@ -17,7 +17,7 @@ module ClusterFuck
 
     def raise_unless_version_count_is_good(version_count)
       if version_count and stored_object.versions.count > version_count
-        raise ConflictError, "File changed underneath you, version_count expected to be #{version_count} but was #{stored_object.versions.count}"
+        raise ConflictError, "File #{key} changed underneath you, version_count expected to be #{version_count} but was #{stored_object.versions.count}"
       end
     end
 
