@@ -6,7 +6,7 @@ module ClusterFuck
       include Commander::UI
 
       attr_reader :key, :options
-      def run_command(args, options)
+      def run_command(args, options = nil)
         @key = args.first
         @options = options
 
