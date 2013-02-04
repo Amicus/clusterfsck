@@ -29,8 +29,9 @@ module ClusterFuck::Commands
       subject.run_command(args)
     end
 
-    it "should error if the file already exists" do
+    it "should error and not write if the file already exists" do
       mock_s3_object.stub(:exists?).and_return(true)
+      mock_s3_object.should_not_receive(:write)
       ->() { subject.run_command(args) }.should raise_error(ClusterFuck::S3Methods::ConflictError)
     end
 
