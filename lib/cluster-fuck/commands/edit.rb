@@ -11,7 +11,7 @@ module ClusterFuck
         @options = options
 
         new_yaml = ask_editor(YAML.dump(reader.read.to_hash))
-        writer.set(YAML.load(new_yaml))
+        writer.set(Configuration.from_yaml(new_yaml))
       end
 
       def writer

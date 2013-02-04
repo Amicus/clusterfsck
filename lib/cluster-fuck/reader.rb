@@ -13,7 +13,7 @@ module ClusterFuck
       yaml = obj.read
       if yaml
         @version_count = obj.versions.count
-        Configuration.new(YAML.load(yaml))
+        Configuration.from_yaml(yaml)
       end
     end
 

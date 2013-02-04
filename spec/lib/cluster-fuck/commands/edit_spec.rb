@@ -5,7 +5,6 @@ require 'cluster-fuck/cli'
 module ClusterFuck::Commands
   describe Edit do
     let(:blank_options) { Commander::Command::Options.new }
-    subject { Edit.new }
     let(:key) { "test-key" }
     let(:mock_writer) { mock("writer", set: true) }
 
@@ -37,12 +36,10 @@ module ClusterFuck::Commands
         subject.should_receive(:ask_editor).with(dummy_yaml).and_return(dummy_yaml)
         subject.stub(:writer).and_return(mock_writer)
         mock_writer.should_receive(:set).with(dummy_val).once
+
         subject.run_command(args, options)
       end
 
     end
-
-
-
   end
 end
