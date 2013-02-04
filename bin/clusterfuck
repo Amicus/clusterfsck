@@ -1,5 +1,63 @@
 #!/usr/bin/env ruby
+require 'commander/import'
 
-require File.join(File.dirname(__FILE__), "../lib/cluster-fuck/cli")
+$LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), "../lib"))
+require "cluster-fuck/cli"
 
-ClusterFuck::CLI.new(ARGV).run
+
+program :version, '0.0.1'
+program :description, 'Amicus environment-aware configuration manager'
+
+command :edit do |c|
+  c.syntax = 'clusterfuck edit [options]'
+  c.summary = ''
+  c.description = ''
+  c.example 'description', 'command example'
+  c.option '--some-switch', 'Some switch that does something'
+  c.when_called ClusterFuck::Commands::Edit, :run_command
+end
+
+command :write do |c|
+  c.syntax = 'clusterfuck write [options]'
+  c.summary = ''
+  c.description = ''
+  c.example 'description', 'command example'
+  c.option '--some-switch', 'Some switch that does something'
+  c.action do |args, options|
+    # Do something or c.when_called Clusterfuck::Commands::Write,
+  end
+end
+
+command :read do |c|
+  c.syntax = 'clusterfuck read [options]'
+  c.summary = ''
+  c.description = ''
+  c.example 'description', 'command example'
+  c.option '--some-switch', 'Some switch that does something'
+  c.action do |args, options|
+    # Do something or c.when_called Clusterfuck::Commands::Read,
+  end
+end
+
+command :cache do |c|
+  c.syntax = 'clusterfuck cache [options]'
+  c.summary = ''
+  c.description = ''
+  c.example 'description', 'command example'
+  c.option '--some-switch', 'Some switch that does something'
+  c.action do |args, options|
+    # Do something or c.when_called Clusterfuck::Commands::Cache,
+  end
+end
+
+command :local do |c|
+  c.syntax = 'clusterfuck local [options]'
+  c.summary = ''
+  c.description = ''
+  c.example 'description', 'command example'
+  c.option '--some-switch', 'Some switch that does something'
+  c.action do |args, options|
+    # Do something or c.when_called Clusterfuck::Commands::Local
+  end
+end
+

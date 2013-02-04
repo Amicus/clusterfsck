@@ -15,13 +15,5 @@ module ClusterFuck
       end
     end
 
-    def method_missing(meth, *args, &block)
-      val = self.[](meth)
-      if val
-        val
-      else
-        super
-      end
-    end
   end
 end

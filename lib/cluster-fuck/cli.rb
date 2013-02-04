@@ -1,11 +1,2 @@
-module ClusterFuck
-
-  class CLI
-
-    def initialize(argv)
-
-    end
-
-  end
-
-end
+require_relative "../cluster-fuck"
+require_relative "commands/edit"

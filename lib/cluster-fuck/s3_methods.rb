@@ -21,10 +21,19 @@ module ClusterFuck
       end
     end
 
+    def all_files
+      bucket.objects.with_prefix(amicus_env).collect(&:key)
+    end
+
   protected
 
     def full_path(key)
-      "#{AMICUS_ENV}/#{key}"
+      "#{amicus_env}/#{key}"
     end
+
+    def amicus_env
+      AMICUS_ENV
+    end
+
   end
 end

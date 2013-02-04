@@ -22,18 +22,9 @@ module ClusterFuck
       end
 
       it "should load the remote file and yaml parse it" do
-        reader["test"].foo.should == 'bar'
+        reader["test"]['foo'].should == 'bar'
       end
 
-      it "should use the dot syntax" do
-        reader.test.foo.should == 'bar'
-      end
-
-      it "should raise error when the mash does not have the val" do
-        mock_s3_obj.stub(:read).and_return(nil)
-        reader.stub(:s3_object).with(:not_in_hash).and_return(mock_s3_obj)
-        ->() { reader.not_in_hash }.should raise_error(NoMethodError)
-      end
     end
   end
 end
