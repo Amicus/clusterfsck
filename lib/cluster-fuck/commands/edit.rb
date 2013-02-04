@@ -1,6 +1,5 @@
 require 'commander'
 
-require 'pry'
 module ClusterFuck
   module Commands
     class Edit

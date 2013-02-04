@@ -1,4 +1,3 @@
-require 'pry'
 module ClusterFuck
   module S3Methods
 
