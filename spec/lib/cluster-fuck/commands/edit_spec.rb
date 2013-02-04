@@ -33,7 +33,7 @@ module ClusterFuck::Commands
       it "should open the yaml version of the key in an editor" do
         subject.should_receive(:ask_editor).with(dummy_yaml).and_return(dummy_yaml)
         subject.stub(:writer).and_return(mock_writer)
-        mock_writer.should_receive(:set).with(dummy_val).once
+        mock_writer.should_receive(:set).with(dummy_val, mock_s3_obj.versions.count).once
 
         subject.run_command(args)
       end
