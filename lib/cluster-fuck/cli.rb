@@ -1,0 +1,5 @@
+require_relative "../cluster-fuck"
+require_relative "commands/edit"
+require_relative "commands/create"
+require_relative "commands/list"
+require_relative "commands/override"
