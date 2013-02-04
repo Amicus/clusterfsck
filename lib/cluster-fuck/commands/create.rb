@@ -9,7 +9,9 @@ module ClusterFuck
       attr_reader :key
       def run_command(args, options = nil)
         @key = args.first
-        bucket.objects.create(full_path(key))
+        obj = s3_object(key)
+        raise ConflictError, "#{key} already exists!" if obj.exists?
+        obj.write('')
         Edit.new.run_command(args)
       end
 

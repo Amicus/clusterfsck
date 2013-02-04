@@ -2,8 +2,6 @@ module ClusterFuck
   class Writer
     include S3Methods
 
-    class ConflictError < StandardError; end
-
     attr_reader :amicus_env, :key
     def initialize(key, opts = {})
       @key = key

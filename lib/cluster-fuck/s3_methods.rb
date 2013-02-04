@@ -1,6 +1,9 @@
 require 'pry'
 module ClusterFuck
   module S3Methods
+
+    class ConflictError < StandardError; end
+
     def s3_object(object_name)
       bucket.objects[full_path(object_name)]
     end
