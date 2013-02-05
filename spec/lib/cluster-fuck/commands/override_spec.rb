@@ -14,7 +14,7 @@ module ClusterFuck::Commands
     let(:args) { ["test-key"] }
 
     before do
-      ClusterFuck::Reader.should_receive(:new).with(args.first).and_return(mock_reader)
+      ClusterFuck::Reader.should_receive(:new).with(args.first, amicus_env: nil).and_return(mock_reader)
     end
 
     it "should read the remote contents and write the local contents" do

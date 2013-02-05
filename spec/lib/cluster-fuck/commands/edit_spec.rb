@@ -19,7 +19,8 @@ module ClusterFuck::Commands
     let(:mock_s3_obj) do
       mock(:s3_object, {
           read: dummy_yaml,
-          versions: mock('versions', count: 3)
+          versions: mock('versions', count: 3),
+          :exists? => true
       })
     end
 

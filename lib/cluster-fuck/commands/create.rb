@@ -5,10 +5,12 @@ module ClusterFuck
   module Commands
     class Create
       include ClusterFuck::S3Methods
+      include AmicusEnvArgumentParser
 
       attr_reader :key
       def run_command(args, options = {})
-        @key = args.first
+        set_amicus_env_and_key_from_args(args)
+
         obj = s3_object(key)
         raise ConflictError, "#{key} already exists!" if obj.exists?
         obj.write('')

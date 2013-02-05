@@ -3,6 +3,10 @@ require 'spec_helper'
 module ClusterFuck
   class DummyClass
     include S3Methods
+
+    def amicus_env
+      "test"
+    end
   end
 
   describe S3Methods do

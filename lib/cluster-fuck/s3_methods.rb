@@ -2,6 +2,7 @@ module ClusterFuck
   module S3Methods
 
     class ConflictError < StandardError; end
+    class KeyDoesNotExistError < StandardError; end
 
     def s3_object(object_name)
       bucket.objects[full_s3_path(object_name)]
@@ -31,11 +32,8 @@ module ClusterFuck
       "#{amicus_env}/#{key}"
     end
 
-  protected
-
-
     def amicus_env
-      AMICUS_ENV
+      @amicus_env || ClusterFuck::AMICUS_ENV
     end
 
   end

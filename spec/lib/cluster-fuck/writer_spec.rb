@@ -19,7 +19,8 @@ module ClusterFuck
               even: 'here'
             }
           }),
-          versions: mock('versions', count: initial_version_count)
+          versions: mock('versions', count: initial_version_count),
+          :exists? => true
       )
       Reader.any_instance.stub(:s3_object).with("#{key}").and_return(mock_s3_obj)
       writer.stub(:s3_object).and_return(mock_s3_obj)

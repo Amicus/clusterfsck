@@ -6,7 +6,7 @@ module ClusterFuck
     let(:amicus_env) { 'test' }
     let(:key) { "test-key" }
     let(:reader) { Reader.new(key) }
-    let(:mock_s3_obj) { mock(:s3_object, read: nil) }
+    let(:mock_s3_obj) { mock(:s3_object, read: nil, :exists? => true) }
 
 
     it "should set amicus_env" do
