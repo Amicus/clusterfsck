@@ -1,8 +1,15 @@
 require "cluster-fuck/version"
+require 'yaml'
+require 'aws-sdk'
+require 'hashie'
 
 module ClusterFuck
   CONFIG_BUCKET = 'amicus-config'
-  AMICUS_ENV = ENV['AMICUS_ENV'] || 'development'
+  AMICUS_ENV = if File.exists?("/mnt/configs/amicus_env.yml")
+                 YAML.load_file("/mnt/configs/amicus_env.yml")['amicus_env']
+               else
+                 ENV['AMICUS_ENV'] || 'development'
+               end
 
   def self.logger=(logger)
     @logger = logger
@@ -12,11 +19,11 @@ module ClusterFuck
     @logger ||= Logger.new($stdout)
   end
 
-end
+  def self.amicus_env
+    AMICUS_ENV
+  end
 
-require 'aws-sdk'
-require 'hashie'
-require 'yaml'
+end
 
 require 'cluster-fuck/credential_grabber'
 require 'cluster-fuck/s3_methods'

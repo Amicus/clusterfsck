@@ -9,7 +9,7 @@ module ClusterFuck
     attr_reader :amicus_env, :key, :version_count
     def initialize(key, opts={})
       @key = key
-      @amicus_env = opts[:amicus_env] || ClusterFuck::AMICUS_ENV
+      @amicus_env = opts[:amicus_env] || ClusterFuck.amicus_env
       @ignore_local = opts[:ignore_local]
     end
 
