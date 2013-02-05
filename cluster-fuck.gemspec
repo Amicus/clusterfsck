@@ -14,6 +14,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "aws-sdk"
   gem.add_dependency "hashie"
+  gem.add_dependency "commander", "~> 4.1.0"
 
   gem.add_development_dependency "rspec"
 

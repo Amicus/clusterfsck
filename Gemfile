@@ -5,6 +5,7 @@ gemspec
 
 group :test do
   gem 'guard-rspec'
+  gem 'rb-fsevent', '~> 0.9.1'
   gem 'rake'
   gem 'fakes3'
   gem 'pry'
