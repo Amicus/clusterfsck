@@ -9,7 +9,7 @@ module ClusterFuck
         @amicus_env = if args.length > 0
                         args.first
                       else
-                        ClusterFuck::AMICUS_ENV
+                        ClusterFuck.amicus_env
                       end
 
         $stdout.puts(all_files.join("\n"))

@@ -33,7 +33,7 @@ module ClusterFuck
     end
 
     def amicus_env
-      @amicus_env || ClusterFuck::AMICUS_ENV
+      @amicus_env || ClusterFuck.amicus_env
     end
 
   end

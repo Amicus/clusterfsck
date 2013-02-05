@@ -5,7 +5,7 @@ module ClusterFuck
     attr_reader :amicus_env, :key
     def initialize(key, opts = {})
       @key = key
-      @amicus_env = opts[:amicus_env] || ClusterFuck::AMICUS_ENV
+      @amicus_env = opts[:amicus_env] || ClusterFuck.amicus_env
     end
 
     #todo, thread safety and process safety please
