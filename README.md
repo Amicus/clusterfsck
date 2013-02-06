@@ -38,10 +38,17 @@ Otherwise, it expects you to be on an EC2 instance and not have to setup credent
 
 ## Usage
 
+### From Code
+
 ```ruby
-reader = ClusterFuck::Reader.new
-reader[:stripe][:api_key] loads "config_bucket/amicus_env/stripe and returns the api_key from the hash
+reader = ClusterFuck::Reader.new(:stripe)
+reader.read[:api_key] # loads config_bucket/amicus_env/stripe and returns the api_key from the hash
 ```
+
+#### From the command line
+
+See help on bin/clusterfuck
+
 The ClusterFuck::Reader instance will automatically load the configuration for 
 the environment stored in the AMICUS_ENV environment variable on the host.
 
