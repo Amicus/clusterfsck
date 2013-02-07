@@ -14,7 +14,7 @@ module ClusterFuck
     end
 
     def set_amicus_env_to_shared_unless_key_found!
-      unless stored_object.exists?
+      unless has_local_override? or stored_object.exists?
         original_amicus_env = @amicus_env
         @amicus_env = SHARED_ENV
         raise KeyDoesNotExistError, "there was no #{key} in either #{original_amicus_env} or #{SHARED_ENV}" unless stored_object(true).exists?
