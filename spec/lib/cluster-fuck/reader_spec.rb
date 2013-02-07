@@ -18,6 +18,7 @@ module ClusterFuck
       let(:local_path) { "cluster-fuck/#{amicus_env}/#{key}" }
 
       before do
+        reader.send(:stored_object).should_not_receive(:exists?) #shouldn't even check for existence on the network
         File.should_receive(:exists?).at_least(1).times.with(local_path).and_return(true)
         File.stub(:read).with(local_path).and_return(local_yaml)
       end
