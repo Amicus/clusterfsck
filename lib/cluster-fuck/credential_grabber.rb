@@ -20,6 +20,8 @@ module ClusterFuck
             secret_access_key: fog_credentials[:default][:aws_secret_access_key],
         }
       end
+    rescue ArgumentError #when there is no HOME, File.expand_path above raises ArgumentError
+      nil
     end
 
     def from_cluster_fuck_file
