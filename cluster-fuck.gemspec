@@ -12,7 +12,9 @@ Gem::Specification.new do |gem|
   gem.summary       = ""
   gem.homepage      = ""
 
-  gem.add_dependency "aws-sdk"
+  # we need a big version here, because we rely on a change made in january
+  # that was breaking EC2 provider credentials
+  gem.add_dependency "aws-sdk", "~> 1.8.1.2"
   gem.add_dependency "hashie"
   gem.add_dependency "commander", "~> 4.1.0"
 
