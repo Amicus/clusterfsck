@@ -6,7 +6,6 @@ module ClusterFuck
       include Commander::UI
       include AmicusEnvArgumentParser
 
-      attr_reader :key, :options
       def run_command(args, options = Hashie::Mash.new)
         set_amicus_env_and_key_from_args(args)
 
