@@ -1,15 +1,15 @@
 require 'commander'
 
-module ClusterFuck
+module ClusterFsck
   module Commands
     class List
-      include ClusterFuck::S3Methods
+      include ClusterFsck::S3Methods
 
       def run_command(args, options = {})
         @amicus_env = if args.length > 0
                         args.first
                       else
-                        ClusterFuck.amicus_env
+                        ClusterFsck.amicus_env
                       end
 
         $stdout.puts(all_files.join("\n"))

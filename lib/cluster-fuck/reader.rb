@@ -1,15 +1,15 @@
-module ClusterFuck
+module ClusterFsck
   class Reader
     include S3Methods
 
-    LOCAL_OVERRIDE_DIR = "cluster-fuck"
+    LOCAL_OVERRIDE_DIR = "cluster-fsck"
     SHARED_ENV = "shared"
 
 
     attr_reader :amicus_env, :key, :version_count
     def initialize(key, opts={})
       @key = key
-      @amicus_env = opts[:amicus_env] || ClusterFuck.amicus_env
+      @amicus_env = opts[:amicus_env] || ClusterFsck.amicus_env
       @ignore_local = opts[:ignore_local]
     end
 

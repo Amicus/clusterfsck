@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module ClusterFuck
+module ClusterFsck
 
   describe Writer do
     let(:amicus_env) { 'development' }
@@ -52,14 +52,14 @@ module ClusterFuck
           mock_s3_obj.should_not_receive(:write)
           mock_s3_obj.versions.stub(:count).and_return(initial_version_count + 1)
 
-          ->() { do_write }.should raise_error(ClusterFuck::S3Methods::ConflictError)
+          ->() { do_write }.should raise_error(ClusterFsck::S3Methods::ConflictError)
         end
 
         it "should raise an error if the version count has hopped AFTER our write" do
           mock_write
           mock_s3_obj.versions.stub(:count).and_return(initial_version_count, (initial_version_count + 2))
 
-          ->() { do_write }.should raise_error(ClusterFuck::S3Methods::ConflictError)
+          ->() { do_write }.should raise_error(ClusterFsck::S3Methods::ConflictError)
         end
 
         def mock_write

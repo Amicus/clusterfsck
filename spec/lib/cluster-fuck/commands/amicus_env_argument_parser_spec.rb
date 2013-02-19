@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'commander'
-require 'cluster-fuck/cli'
+require 'cluster-fsck/cli'
 
-module ClusterFuck::Commands
+module ClusterFsck::Commands
   class DummyClass
     include AmicusEnvArgumentParser
   end

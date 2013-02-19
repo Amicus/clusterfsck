@@ -1,9 +1,9 @@
-require "cluster-fuck/version"
+require "cluster-fsck/version"
 require 'yaml'
 require 'aws-sdk'
 require 'hashie'
 
-module ClusterFuck
+module ClusterFsck
   CONFIG_BUCKET = 'amicus-config'
   AMICUS_ENV = if File.exists?("/mnt/configs/amicus_env.yml")
                  YAML.load_file("/mnt/configs/amicus_env.yml")['amicus_env']
@@ -25,8 +25,8 @@ module ClusterFuck
 
 end
 
-require 'cluster-fuck/credential_grabber'
-require 'cluster-fuck/s3_methods'
-require 'cluster-fuck/configuration'
-require 'cluster-fuck/reader'
-require 'cluster-fuck/writer'
+require 'cluster-fsck/credential_grabber'
+require 'cluster-fsck/s3_methods'
+require 'cluster-fsck/configuration'
+require 'cluster-fsck/reader'
+require 'cluster-fsck/writer'

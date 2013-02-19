@@ -1,3 +1,3 @@
-module ClusterFuck
-  VERSION = "0.1.4.3"
+module ClusterFsck
+  VERSION = "0.1.5.0"
 end

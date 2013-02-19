@@ -1,6 +1,6 @@
 require 'commander'
 
-module ClusterFuck
+module ClusterFsck
   module Commands
     class Edit
       include Commander::UI
@@ -17,11 +17,11 @@ module ClusterFuck
       end
 
       def writer
-        @writer ||= ClusterFuck::Writer.new(key, amicus_env: reader.amicus_env)
+        @writer ||= ClusterFsck::Writer.new(key, amicus_env: reader.amicus_env)
       end
 
       def reader
-        @reader ||= ClusterFuck::Reader.new(key, amicus_env: amicus_env)
+        @reader ||= ClusterFsck::Reader.new(key, amicus_env: amicus_env)
       end
 
     end

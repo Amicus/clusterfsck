@@ -1,15 +1,15 @@
-module ClusterFuck
+module ClusterFsck
 
   class CredentialGrabber
     FOG_PATH = "~/.fog"
-    CF_PATH = "~/.cluster-fuck"
+    CF_PATH = "~/.cluster-fsck"
 
     def self.find
       new.find
     end
 
     def find
-      from_cluster_fuck_file || from_fog_file
+      from_cluster_fsck_file || from_fog_file
     end
 
     def from_fog_file
@@ -24,7 +24,7 @@ module ClusterFuck
       nil
     end
 
-    def from_cluster_fuck_file
+    def from_cluster_fsck_file
       if exists?(CF_PATH)
         YAML.load_file(CF_PATH)
       end

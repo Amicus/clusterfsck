@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module ClusterFuck
+module ClusterFsck
 
   describe CredentialGrabber do
     let(:credential_grabber) { CredentialGrabber.new }
@@ -32,7 +32,7 @@ module ClusterFuck
       }
     end
 
-    describe "when there is a ~/.fog file but no ~/.cluster-fuck" do
+    describe "when there is a ~/.fog file but no ~/.cluster-fsck" do
       before do
         File.stub(:expand_path).with(CredentialGrabber::FOG_PATH).and_return(CredentialGrabber::FOG_PATH)
         credential_grabber.should_receive(:exists?).with(CredentialGrabber::FOG_PATH).and_return(true)
@@ -47,7 +47,7 @@ module ClusterFuck
       end
     end
 
-    describe "when there is a ~/.cluster-fuck file and no ~/.fog file" do
+    describe "when there is a ~/.cluster-fsck file and no ~/.fog file" do
       before do
         credential_grabber.should_receive(:exists?).with(CredentialGrabber::CF_PATH).and_return(true)
         YAML.should_receive(:load_file).with(CredentialGrabber::CF_PATH).and_return(cf_credentials)
@@ -58,13 +58,13 @@ module ClusterFuck
       end
     end
 
-    describe "when there is both a ~/.cluster-fuck and a ~/.fog file" do
+    describe "when there is both a ~/.cluster-fsck and a ~/.fog file" do
       before do
         credential_grabber.should_receive(:exists?).and_return(true)
         YAML.should_receive(:load_file).with(CredentialGrabber::CF_PATH).and_return(cf_credentials)
       end
 
-      it "should return the cluster-fuck credentials" do
+      it "should return the cluster-fsck credentials" do
         credential_grabber.find.should == cf_credentials
       end
     end

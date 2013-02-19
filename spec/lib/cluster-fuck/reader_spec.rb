@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module ClusterFuck
+module ClusterFsck
 
   describe Reader do
     let(:amicus_env) { 'test' }
@@ -15,7 +15,7 @@ module ClusterFuck
 
     describe "when there is a local override" do
       let(:local_yaml) { YAML.dump(foo: true) }
-      let(:local_path) { "cluster-fuck/#{amicus_env}/#{key}" }
+      let(:local_path) { "cluster-fsck/#{amicus_env}/#{key}" }
 
       before do
         reader.send(:stored_object).should_not_receive(:exists?) #shouldn't even check for existence on the network

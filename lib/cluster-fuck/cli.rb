@@ -1,4 +1,4 @@
-require_relative "../cluster-fuck"
+require_relative "../cluster-fsck"
 require_relative "commands/amicus_env_argument_parser"
 require_relative "commands/edit"
 require_relative "commands/create"
