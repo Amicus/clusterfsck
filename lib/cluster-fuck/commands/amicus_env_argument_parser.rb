@@ -3,9 +3,8 @@ module ClusterFuck
     module AmicusEnvArgumentParser
 
       def self.included(base)
-        [:amicus_env, :key].each do |reader_key|
-          base.send(:attr_reader, reader_key) unless base.respond_to?(:reader_key)
-        end
+        base.send(:attr_reader, :key) unless base.respond_to?(:reader_key)
+        base.send(:include, ClusterFuck::S3Methods)
       end
 
       def set_amicus_env_and_key_from_args(args)
