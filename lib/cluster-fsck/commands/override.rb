@@ -1,7 +1,7 @@
 require 'commander'
 require 'fileutils'
 
-module ClusterFuck
+module ClusterFsck
   module Commands
     class Override
       include AmicusEnvArgumentParser
@@ -19,7 +19,7 @@ module ClusterFuck
 
     private
       def reader
-        @reader ||= ClusterFuck::Reader.new(key, amicus_env: amicus_env)
+        @reader ||= ClusterFsck::Reader.new(key, amicus_env: amicus_env)
       end
 
     end

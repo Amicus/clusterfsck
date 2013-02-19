@@ -1,7 +1,7 @@
 require 'commander'
 require_relative "edit"
 
-module ClusterFuck
+module ClusterFsck
   module Commands
     class Create
       include AmicusEnvArgumentParser

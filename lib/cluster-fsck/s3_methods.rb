@@ -1,4 +1,4 @@
-module ClusterFuck
+module ClusterFsck
   module S3Methods
 
     class ConflictError < StandardError; end
@@ -33,7 +33,7 @@ module ClusterFuck
     end
 
     def amicus_env
-      @amicus_env || ClusterFuck.amicus_env
+      @amicus_env || ClusterFsck.amicus_env
     end
 
   end

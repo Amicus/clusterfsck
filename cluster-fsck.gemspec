@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'cluster-fuck/version'
+require 'cluster-fsck/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "cluster-fuck"
-  gem.version       = ClusterFuck::VERSION
+  gem.name          = "cluster-fsck"
+  gem.version       = ClusterFsck::VERSION
   gem.authors       = ["Topper Bowers"]
   gem.email         = ["topper@amicushq.com"]
   gem.description   = "cluster-aware S3 and ZK based config getter/setter"

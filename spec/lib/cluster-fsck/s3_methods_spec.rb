@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module ClusterFuck
+module ClusterFsck
   class DummyClass
     include S3Methods
 
@@ -11,7 +11,7 @@ module ClusterFuck
 
   describe S3Methods do
     let(:amicus_env) { 'test' }
-    let(:config_bucket) { ClusterFuck::CONFIG_BUCKET }
+    let(:config_bucket) { ClusterFsck::CONFIG_BUCKET }
     let(:key) { 'test_key' }
     let(:dummy_instance) { DummyClass.new }
 

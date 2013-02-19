@@ -1,4 +1,4 @@
-# Cluster::Fuck
+# Cluster::Fsck
 
 TODO: Write a gem description
 
@@ -6,7 +6,7 @@ TODO: Write a gem description
 
 Add this line to your application's Gemfile:
 
-    gem 'cluster-fuck'
+    gem 'cluster-fsck'
 
 And then execute:
 
@@ -14,11 +14,11 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install cluster-fuck
+    $ gem install cluster-fsck
 
 
 ### setup your credential file
-If you are not on an EC2 instance then you should setup your ~/.cluster-fuck file with the followng yaml:
+If you are not on an EC2 instance then you should setup your ~/.cluster-fsck file with the followng yaml:
 
 ```yaml
 :access_key_id: access_key
@@ -41,15 +41,15 @@ Otherwise, it expects you to be on an EC2 instance and not have to setup credent
 ### From Code
 
 ```ruby
-reader = ClusterFuck::Reader.new(:stripe)
+reader = ClusterFsck::Reader.new(:stripe)
 reader.read[:api_key] # loads config_bucket/amicus_env/stripe and returns the api_key from the hash
 ```
 
 #### From the command line
 
-See help on bin/clusterfuck
+See help on bin/clusterfsck
 
-The ClusterFuck::Reader instance will automatically load the configuration for 
+The ClusterFsck::Reader instance will automatically load the configuration for 
 the environment stored in the AMICUS_ENV environment variable on the host.
 
 1. Fork it

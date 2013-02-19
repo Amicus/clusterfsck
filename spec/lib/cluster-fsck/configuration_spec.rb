@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module ClusterFuck
+module ClusterFsck
   describe Configuration do
 
     it "should be a mash" do

@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+require 'commander/import'
+
+$LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), "../lib"))
+require "cluster-fsck/cli"
+
+program :version, ClusterFsck::VERSION
+program :description, 'Amicus environment-aware configuration manager'
+
+#TODO: (topper) - fill in the help stuff
+
+command :edit do |c|
+  c.syntax = 'clusterfsck edit [options]'
+  c.summary = 'Bring up the YAML for key specified in the current AMICUS_ENV or specified AMICUS_ENV in your $editor'
+  c.description = 'clusterfsck edit [amicus_env] key'
+  c.example 'edit stripe in current AMICUS_ENV', 'clusterfsck edit stripe'
+  c.example 'edit stripe in staging AMICUS_ENV', 'clusterfsck edit staging stripe'
+  c.option '--force', 'force edit even if local file override present'
+  c.when_called ClusterFsck::Commands::Edit, :run_command
+end
+
+command :create do |c|
+  c.syntax = 'clusterfsck create [options]'
+  c.summary = 'create a yaml file for your current AMICUS_ENV or specified AMICUS_ENV'
+  c.description = 'clusterfsck create [amicus_env] key'
+  c.example 'create stripe key in current AMICUS_ENV', 'clusterfsck create stripe'
+  c.example 'create stripe key in staging AMICUS_ENV', 'clusterfsck create staging stripe'
+  c.when_called ClusterFsck::Commands::Create, :run_command
+end
+
+command :list do |c|
+  c.syntax = 'clusterfsck list'
+  c.summary = 'list all keys in the current or specified AMICUS_ENV'
+  c.description = 'clusterfsck list [amicus_env]'
+  c.example 'list keys in staging AMICUS_ENV', 'clusterfsck list staging'
+  c.when_called ClusterFsck::Commands::List, :run_command
+end
+
+command :override do |c|
+  c.syntax = 'clusterfsck override [options]'
+  c.summary = 'will copy down the remote config and create a directory clusterfsck/:AMICUS_ENV/:key that will be used by default over the remote'
+  c.description = ''
+  c.example 'override the staging stripe key in this working directory', 'clusterfsck override staging stripe'
+  c.when_called ClusterFsck::Commands::Override, :run_command
+end
