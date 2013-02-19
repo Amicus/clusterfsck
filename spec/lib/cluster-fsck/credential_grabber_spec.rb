@@ -23,6 +23,13 @@ module ClusterFsck
       }
     end
 
+    let(:env_credentials) do
+      {
+          access_key_id: 'env_access_key',
+          secret_access_key: 'env_secret_key'
+      }
+    end
+
     let(:fog_credentials) do
       {
         default: {
@@ -66,6 +73,23 @@ module ClusterFsck
 
       it "should return the cluster-fsck credentials" do
         credential_grabber.find.should == cf_credentials
+      end
+    end
+
+    describe "when there is both ENV vars and a ~/.fog file" do
+      before :each do
+        ENV.stub(:[]).with("AWS_ACCESS_KEY_ID").and_return('env_access_key')
+        ENV.stub(:[]).with("AWS_SECRET_ACCESS_KEY").and_return('env_secret_key')
+        File.stub(:expand_path).with(CredentialGrabber::FOG_PATH).and_return(CredentialGrabber::FOG_PATH)
+      end
+
+      it "should return the cluster-fsck credentials" do
+        credential_grabber.find.should == env_credentials
+      end
+
+      it "should not look at expand_path because it short circuits first" do
+        credential_grabber.find
+        YAML.should_not_receive(:load_file)
       end
     end
 

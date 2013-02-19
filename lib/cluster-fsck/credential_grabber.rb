@@ -9,7 +9,7 @@ module ClusterFsck
     end
 
     def find
-      from_cluster_fsck_file || from_fog_file
+      from_cluster_fsck_file || from_env_vars || from_fog_file
     end
 
     def from_fog_file
@@ -24,6 +24,15 @@ module ClusterFsck
       nil
     end
 
+    def from_env_vars
+      if ENV['AWS_ACCESS_KEY_ID'] && ENV['AWS_SECRET_ACCESS_KEY']
+        {
+            access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+            secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+        }
+      end
+    end
+
     def from_cluster_fsck_file
       if exists?(CF_PATH)
         YAML.load_file(CF_PATH)
@@ -36,6 +45,5 @@ module ClusterFsck
     end
 
   end
-
 
 end
