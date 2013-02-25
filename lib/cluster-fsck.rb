@@ -12,9 +12,10 @@ module ClusterFsck
     puts <<-UI
       ClusterFsck stores your configuration(s) in an S3 bucket, which must have a unique (global) name.
       The name will be stored in `#{CLUSTER_FSCK_PATHS[2]}` on this machine, and should be placed in
-      `#{CLUSTER_FSCK_PATHS[1]}` on your production box.  It may also be overridden on a per project
-      basis by creating a `#{CLUSTER_FSCK_PATHS[0]}` file in the project root.
-      Enter a name for your bucket, or press enter to accept the randomly generated name:
+      `#{CLUSTER_FSCK_PATHS[1]}` on your production box (with a different ENV setting if desired).
+      It may also be overridden on a per project basis by creating a `#{CLUSTER_FSCK_PATHS[0]}`
+      file in the project root. Enter a name for your bucket, or press enter to accept the randomly
+      generated name:
       #{random_name}
     UI
     input_name = ask("bucket name: ")
