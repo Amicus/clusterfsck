@@ -6,10 +6,10 @@ module ClusterFsck
       include ClusterFsck::S3Methods
 
       def run_command(args, options = {})
-        @amicus_env = if args.length > 0
+        @cluster_fsck_env = if args.length > 0
                         args.first
                       else
-                        ClusterFsck.amicus_env
+                        ClusterFsck.cluster_fsck_env
                       end
 
         $stdout.puts(all_files.join("\n"))

@@ -25,7 +25,14 @@ If you are not on an EC2 instance then you should setup your ~/.cluster-fsck fil
 :secret_access_key: secret_key
 ```
 
-It will also look for a ~/.fog file with the following syntax
+If that's not present it will also look for ENV variables as below.  Both must be defined to be used:
+
+```bash
+  ENV['AWS_ACCESS_KEY_ID']
+  ENV['AWS_SECRET_ACCESS_KEY']
+```
+
+If neither of those is present it will also look for a ~/.fog file with the following syntax
 
 ```yaml
 :default:
@@ -42,15 +49,15 @@ Otherwise, it expects you to be on an EC2 instance and not have to setup credent
 
 ```ruby
 reader = ClusterFsck::Reader.new(:stripe)
-reader.read[:api_key] # loads config_bucket/amicus_env/stripe and returns the api_key from the hash
+reader.read[:api_key] # loads config_bucket/cluster_fsck_env/stripe and returns the api_key from the hash
 ```
 
 #### From the command line
 
 See help on bin/clusterfsck
 
-The ClusterFsck::Reader instance will automatically load the configuration for 
-the environment stored in the AMICUS_ENV environment variable on the host.
+The ClusterFsck::Reader instance will automatically load the configuration for
+the environment stored in the CLUSTER_FSCK_ENV environment variable on the host.
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)

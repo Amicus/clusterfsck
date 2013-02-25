@@ -25,15 +25,15 @@ module ClusterFsck
     end
 
     def all_files
-      bucket.objects.with_prefix(amicus_env).collect(&:key)
+      bucket.objects.with_prefix(cluster_fsck_env).collect(&:key)
     end
 
     def full_s3_path(key)
-      "#{amicus_env}/#{key}"
+      "#{cluster_fsck_env}/#{key}"
     end
 
-    def amicus_env
-      @amicus_env || ClusterFsck.amicus_env
+    def cluster_fsck_env
+      @cluster_fsck_env || ClusterFsck.cluster_fsck_env
     end
 
   end

@@ -5,7 +5,7 @@ require 'cluster-fsck/cli'
 module ClusterFsck::Commands
   describe Create do
 
-    let(:amicus_env) { "test" }
+    let(:cluster_fsck_env) { "test" }
     let(:args) { ["test-key"] }
     let(:mock_s3_object) do
       mock("s3_obj",

@@ -3,7 +3,7 @@ require 'spec_helper'
 module ClusterFsck
 
   describe Writer do
-    let(:amicus_env) { 'development' }
+    let(:cluster_fsck_env) { 'development' }
     let(:key) { 'tester' }
     let(:reader) { Reader.new(key) }
     let(:mock_s3_obj) { mock(:s3_object, read: nil) }

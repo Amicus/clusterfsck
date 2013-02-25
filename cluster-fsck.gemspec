@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   # that was breaking EC2 provider credentials
   gem.add_dependency "aws-sdk", "~> 1.8.1.2"
   gem.add_dependency "hashie"
+  gem.add_dependency "random-word"
   gem.add_dependency "commander", "~> 4.1.0"
 
   gem.add_development_dependency "rspec"

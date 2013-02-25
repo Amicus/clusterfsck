@@ -4,10 +4,10 @@ module ClusterFsck
   module Commands
     class Edit
       include Commander::UI
-      include AmicusEnvArgumentParser
+      include ClusterFsckEnvArgumentParser
 
       def run_command(args, options = Hashie::Mash.new)
-        set_amicus_env_and_key_from_args(args)
+        set_cluster_fsck_env_and_key_from_args(args)
 
         @options = options
         raise ArgumentError, "File #{key} is overridden locally! use --force to force" if reader.has_local_override? and !options.force
@@ -17,11 +17,11 @@ module ClusterFsck
       end
 
       def writer
-        @writer ||= ClusterFsck::Writer.new(key, amicus_env: reader.amicus_env)
+        @writer ||= ClusterFsck::Writer.new(key, cluster_fsck_env: reader.cluster_fsck_env)
       end
 
       def reader
-        @reader ||= ClusterFsck::Reader.new(key, amicus_env: amicus_env)
+        @reader ||= ClusterFsck::Reader.new(key, cluster_fsck_env: cluster_fsck_env)
       end
 
     end

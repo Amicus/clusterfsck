@@ -4,10 +4,10 @@ require_relative "edit"
 module ClusterFsck
   module Commands
     class Create
-      include AmicusEnvArgumentParser
+      include ClusterFsckEnvArgumentParser
 
       def run_command(args, options = {})
-        set_amicus_env_and_key_from_args(args)
+        set_cluster_fsck_env_and_key_from_args(args)
         obj = s3_object(key)
         raise ConflictError, "#{key} already exists!" if obj.exists?
         obj.write('')

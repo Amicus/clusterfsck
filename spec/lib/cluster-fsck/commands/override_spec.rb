@@ -14,7 +14,7 @@ module ClusterFsck::Commands
     let(:args) { ["test-key"] }
 
     before do
-      ClusterFsck::Reader.should_receive(:new).with(args.first, amicus_env: 'test').and_return(mock_reader)
+      ClusterFsck::Reader.should_receive(:new).with(args.first, cluster_fsck_env: 'test').and_return(mock_reader)
     end
 
     it "should read the remote contents and write the local contents" do

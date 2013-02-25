@@ -1,5 +1,5 @@
 require_relative "../cluster-fsck"
-require_relative "commands/amicus_env_argument_parser"
+require_relative "commands/cluster_fsck_env_argument_parser"
 require_relative "commands/edit"
 require_relative "commands/create"
 require_relative "commands/list"
