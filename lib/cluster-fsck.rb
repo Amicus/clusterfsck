@@ -7,14 +7,11 @@ require 'commander'
 
 module ClusterFsck
   CLUSTER_FSCK_PATHS = ['./.cluster-fsck','/usr/cluster_fsck','~/.cluster-fsck']
-  DEFAULT_ENV = 'development'
 
   CLUSTER_FSCK_CONFIG = CLUSTER_FSCK_PATHS.map do |path_string|
     path = File.expand_path(path_string)
     YAML.load_file(path) if File.exists?(path)
   end.compact.first || {}
-
-  CLUSTER_FSCK_ENV = ENV['CLUSTER_FSCK_ENV'] || CLUSTER_FSCK_CONFIG['ENV'] || DEFAULT_ENV
 
   def self.logger=(logger)
     @logger = logger
@@ -25,7 +22,7 @@ module ClusterFsck
   end
 
   def self.cluster_fsck_env
-    CLUSTER_FSCK_ENV
+    @env ||= ENV['CLUSTER_FSCK_ENV'] || CLUSTER_FSCK_CONFIG['ENV'] || default_env
   end
 
   def self.config_bucket
@@ -48,11 +45,14 @@ module ClusterFsck
     input_name = ask("bucket name: ")
     bucket_name = input_name.empty? ? random_name : input_name
     File.open(File.expand_path(CLUSTER_FSCK_PATHS[2]), 'w') do |f|
-      f.write(YAML.dump({'BUCKET' => bucket_name, 'ENV' => DEFAULT_ENV }))
+      f.write(YAML.dump({'BUCKET' => bucket_name, 'ENV' => default_env }))
     end
     bucket_name
   end
 
+  def self.default_env
+    'development'
+  end
 
 end
 
