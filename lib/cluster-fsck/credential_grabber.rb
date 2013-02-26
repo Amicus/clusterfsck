@@ -9,7 +9,7 @@ module ClusterFsck
     end
 
     def find
-      from_cluster_fsck_file || from_env_vars || from_fog_file
+      from_env_vars || from_cluster_fsck_config || from_fog_file
     end
 
     def from_fog_file
@@ -33,9 +33,13 @@ module ClusterFsck
       end
     end
 
-    def from_cluster_fsck_file
-      if exists?(CF_PATH)
-        YAML.load_file(CF_PATH)
+    def from_cluster_fsck_config
+      if ClusterFsck::CLUSTER_FSCK_CONFIG['AWS_ACCESS_KEY_ID'] &&
+         ClusterFsck::CLUSTER_FSCK_CONFIG['AWS_SECRET_ACCESS_KEY']
+        {
+            access_key_id: ClusterFsck::CLUSTER_FSCK_CONFIG['AWS_ACCESS_KEY_ID'],
+            secret_access_key: ClusterFsck::CLUSTER_FSCK_CONFIG['AWS_SECRET_ACCESS_KEY'],
+        }
       end
     end
 

@@ -54,32 +54,27 @@ module ClusterFsck
       end
     end
 
-    describe "when there is a ~/.cluster-fsck file and no ~/.fog file" do
+    describe "when there is a ~/.cluster-fsck config and with or without a ~/.fog file" do
       before do
-        credential_grabber.should_receive(:exists?).with(CredentialGrabber::CF_PATH).and_return(true)
-        YAML.should_receive(:load_file).with(CredentialGrabber::CF_PATH).and_return(cf_credentials)
-      end
-
-      it "should return the credentials" do
-        credential_grabber.find.should == cf_credentials
-      end
-    end
-
-    describe "when there is both a ~/.cluster-fsck and a ~/.fog file" do
-      before do
-        credential_grabber.should_receive(:exists?).and_return(true)
-        YAML.should_receive(:load_file).with(CredentialGrabber::CF_PATH).and_return(cf_credentials)
+        credential_grabber.stub(:exists?).with(true)
+        ClusterFsck::CLUSTER_FSCK_CONFIG.should_receive(:[]).at_least(:once)
+          .with('AWS_ACCESS_KEY_ID').and_return(cf_credentials[:access_key_id])
+        ClusterFsck::CLUSTER_FSCK_CONFIG.should_receive(:[]).at_least(:once)
+          .with('AWS_SECRET_ACCESS_KEY').and_return(cf_credentials[:secret_access_key])
       end
 
       it "should return the cluster-fsck credentials" do
+        credential_grabber.find.should == cf_credentials
+      end
+      it "should return the credentials" do
         credential_grabber.find.should == cf_credentials
       end
     end
 
     describe "when there is both ENV vars and a ~/.fog file" do
       before :each do
-        ENV.stub(:[]).with("AWS_ACCESS_KEY_ID").and_return('env_access_key')
-        ENV.stub(:[]).with("AWS_SECRET_ACCESS_KEY").and_return('env_secret_key')
+        ENV.stub(:[]).with("AWS_ACCESS_KEY_ID").and_return(env_credentials[:access_key_id])
+        ENV.stub(:[]).with("AWS_SECRET_ACCESS_KEY").and_return(env_credentials[:secret_access_key])
         File.stub(:expand_path).with(CredentialGrabber::FOG_PATH).and_return(CredentialGrabber::FOG_PATH)
       end
 

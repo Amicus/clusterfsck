@@ -11,7 +11,7 @@ module ClusterFsck
 
   describe S3Methods do
     let(:cluster_fsck_env) { 'test' }
-    let(:config_bucket) { ClusterFsck::CONFIG_BUCKET }
+    let(:config_bucket) { ClusterFsck.config_bucket }
     let(:key) { 'test_key' }
     let(:dummy_instance) { DummyClass.new }
 

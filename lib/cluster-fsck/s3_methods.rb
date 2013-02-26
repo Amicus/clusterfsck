@@ -9,7 +9,7 @@ module ClusterFsck
     end
 
     def bucket
-      @bucket ||= s3.buckets[CONFIG_BUCKET]
+      @bucket ||= s3.buckets[ClusterFsck.config_bucket]
     end
 
     def credentials
