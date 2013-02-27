@@ -23,11 +23,11 @@ module ClusterFsck
 
   def self.cluster_fsck_env
     raise "Configuration failure, check ~/.clusterfsck or other config values" unless config_bucket
-    @env ||= ENV['CLUSTER_FSCK_ENV'] || CLUSTER_FSCK_CONFIG['ENV'] || default_env
+    @env ||= ENV['CLUSTER_FSCK_ENV'] || CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_ENV'] || default_env
   end
 
   def self.config_bucket
-    @config_bucket ||= ENV['CLUSTER_FSCK_BUCKET'] || CLUSTER_FSCK_CONFIG['BUCKET'] || setup_config
+    @config_bucket ||= ENV['CLUSTER_FSCK_BUCKET'] || CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_BUCKET'] || setup_config
   end
 
   def self.setup_config
@@ -40,17 +40,20 @@ module ClusterFsck
       variables, so these can override file settings as well.  Bucket is read from CLUSTER_FSCK_BUCKET
       and the environment (production, staging, development, etc) is read from CLUSTER_FSCK_ENV.
     UI
-    unless CLUSTER_FSCK_CONFIG['BUCKET']
+    unless CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_BUCKET']
       set_bucket_name
     end
     unless CredentialGrabber.find
       set_aws_keys
     end
-    CLUSTER_FSCK_CONFIG['ENV'] ||= default_env
+    unless S3Methods.bucket.exists?
+      warn_create_bucket
+    end
+    CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_ENV'] ||= default_env
     File.open(File.expand_path(CLUSTER_FSCK_PATHS[2]), 'w') do |f|
       f.write(YAML.dump(config_hash))
     end
-    CLUSTER_FSCK_CONFIG['BUCKET']
+    CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_BUCKET']
   end
 
   def self.set_bucket_name
@@ -60,7 +63,7 @@ module ClusterFsck
       #{random_name}
     UI
     input_name = ask("bucket name: ")
-    CLUSTER_FSCK_CONFIG['BUCKET'] = input_name.empty? ? random_name : input_name
+    CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_BUCKET'] = input_name.empty? ? random_name : input_name
   end
 
   def self.set_aws_keys
@@ -68,8 +71,15 @@ module ClusterFsck
     CLUSTER_FSCK_CONFIG['AWS_SECRET_ACCESS_KEY'] = ask("Enter your AWS secret access key: ")
   end
 
+  def self.warn_create_bucket
+    puts "WARNING: #{config_bucket} does not exist.  Type yes below to have it created for you, or return to abort."
+    input = ask("Create bucket #{config_bucket}?: ")
+    S3Methods.s3.buckets.create(config_bucket) unless input.empty?
+    raise "No bucket present, not created" if input.empty?
+  end
+
   def self.default_env
-    'development'
+    ENV['CLUSTER_FSCK_ENV'] || 'development'
   end
 
   def self.config_hash

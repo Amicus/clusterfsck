@@ -13,10 +13,18 @@ module ClusterFsck
     end
 
     def credentials
+      S3Methods.credentials
+    end
+
+    def self.credentials
       @credentials ||= CredentialGrabber.find
     end
 
     def s3
+      S3Methods.s3
+    end
+
+    def self.s3
       if credentials
         AWS::S3.new(credentials) #could be nil, especially if on EC2
       else
