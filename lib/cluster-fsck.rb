@@ -22,15 +22,15 @@ module ClusterFsck
   end
 
   def self.cluster_fsck_env
+    raise "Configuration failure, check ~/.clusterfsck or other config values" unless config_bucket
     @env ||= ENV['CLUSTER_FSCK_ENV'] || CLUSTER_FSCK_CONFIG['ENV'] || default_env
   end
 
   def self.config_bucket
-    @config_bucket ||= ENV['CLUSTER_FSCK_BUCKET'] || CLUSTER_FSCK_CONFIG['BUCKET'] || setup_bucket
+    @config_bucket ||= ENV['CLUSTER_FSCK_BUCKET'] || CLUSTER_FSCK_CONFIG['BUCKET'] || setup_config
   end
 
-  def self.setup_bucket
-    random_name = "clusterfsck_#{RandomWord.adjs.next}_#{RandomWord.nouns.next}"
+  def self.setup_config
     puts <<-UI
       ClusterFsck stores your configuration(s) in an S3 bucket, which must have a unique (global) name.
       The name will be stored in `#{CLUSTER_FSCK_PATHS[2]}` on this machine, and should be placed in
@@ -39,19 +39,41 @@ module ClusterFsck
       file in the project root. The bucket and ENV setting are first checked from *nix environment
       variables, so these can override file settings as well.  Bucket is read from CLUSTER_FSCK_BUCKET
       and the environment (production, staging, development, etc) is read from CLUSTER_FSCK_ENV.
+    UI
+    unless CLUSTER_FSCK_CONFIG['BUCKET']
+      set_bucket_name
+    end
+    unless CredentialGrabber.find
+      set_aws_keys
+    end
+    CLUSTER_FSCK_CONFIG['ENV'] ||= default_env
+    File.open(File.expand_path(CLUSTER_FSCK_PATHS[2]), 'w') do |f|
+      f.write(YAML.dump(config_hash))
+    end
+    CLUSTER_FSCK_CONFIG['BUCKET']
+  end
+
+  def self.set_bucket_name
+    random_name = "clusterfsck_#{RandomWord.adjs.next}_#{RandomWord.nouns.next}"
+    puts <<-UI
       Enter a name for your bucket, or press enter to accept the randomly generated name:
       #{random_name}
     UI
     input_name = ask("bucket name: ")
-    bucket_name = input_name.empty? ? random_name : input_name
-    File.open(File.expand_path(CLUSTER_FSCK_PATHS[2]), 'w') do |f|
-      f.write(YAML.dump({'BUCKET' => bucket_name, 'ENV' => default_env }))
-    end
-    bucket_name
+    CLUSTER_FSCK_CONFIG['BUCKET'] = input_name.empty? ? random_name : input_name
+  end
+
+  def self.set_aws_keys
+    CLUSTER_FSCK_CONFIG['AWS_ACCESS_KEY_ID'] = ask("Enter your AWS access key: ")
+    CLUSTER_FSCK_CONFIG['AWS_SECRET_ACCESS_KEY'] = ask("Enter your AWS secret access key: ")
   end
 
   def self.default_env
     'development'
+  end
+
+  def self.config_hash
+    CLUSTER_FSCK_CONFIG
   end
 
 end
