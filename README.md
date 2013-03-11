@@ -53,6 +53,16 @@ reader.read[:api_key] # loads config_bucket/cluster_fsck_env/stripe and returns 
 ```
 
 #### From the command line
+The first time you run ClusterFsck through it's CLI, it will pull its
+configuration from one of a few locations if you configured it manually,
+or prompt you to accept a generated bucket name (or enter your own) and to 
+provide AWS keys, and then store the configuration for you in `~/.clusterfsck`.
+
+The other locations it checks for its config are `/usr/clusterfsck` and in 
+the local directory where it was run from, `./.clusterfsck`, checking usr, then 
+home, then local.  It also looks for S3 keys in a `~/.fog` file and for any or all
+of its config keys in environment variables.  It will also check if the
+bucket exists and offer to create it if it does not.
 
 See help on bin/clusterfsck
 
