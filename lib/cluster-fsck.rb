@@ -46,7 +46,7 @@ module ClusterFsck
     unless CredentialGrabber.find
       set_aws_keys
     end
-    unless S3Methods.bucket.exists?
+    unless S3Methods.s3.buckets[CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_BUCKET']].exists?
       warn_create_bucket
     end
     CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_ENV'] ||= default_env
