@@ -17,7 +17,7 @@ Or install it yourself as:
     $ gem install clusterfsck
 
 
-## Setup
+## Configuration & Setup
 
 #### From the command line
 Type `clusterfsck init` to initiate ClusterFsck's setup assistant, or manually create a YAML file called `.clusterfsck` in your home or the root of your project directory with a `CLUSTER_FSCK_BUCKET` key set to the name of a bucket you have or will create to store configuration.  It also needs AWS keys, but if you already use AWS and have a ~/.fog file with credentials in it, it will find those, or they can be stored in the .clusterfsck file or in environment variables.
@@ -26,7 +26,43 @@ Assuming you've completed the setup, you can run `clusterfsck new <project name>
 
 By default it sets the `CLUSTER_FSCK_ENV` to `development`, much like Rails, but you can set to anything.  If your system is not yet in production, or you have many settings the same between development and staging/production, you may wish to change the default `CLUSTER_FSCK_ENV` to `shared`.  A `ClusterFsck::Reader` instance will look in it's environment's project file first for any key, and if not found, it will check in the shared environments's projects.
 
-See help at `bin/clusterfsck --help` and please help us improve this documentation with pull requests or feedback on where it needs work.
+The command line client also provides several additional commands, including list, which lists config files in the current or specified `list`, and `override` which will copy down the files for the current environment, and use those local files (including any edits you make locally) in place of the S3 based configuration.  You can also use this option to develop locally without internet access.
+
+You can run `clusterfsck --help` to get usage, currently that outputs as follows:
+
+```bash
+>clusterfsck --help
+
+  NAME:
+
+    clusterfsck
+
+  DESCRIPTION:
+
+    Filebased S3 Cofiguration Kontrol for Clusters, by Amicus
+
+  COMMANDS:
+
+    edit                 Bring up the YAML for key specified in the current CLUSTER_FSCK_ENV or specified CLUSTER_FSCK_ENV in your $editor
+    help                 Display global or [command] help documentation.
+    init                 Create ClusterFsck configuration file - called automatically from other commands if no config found.
+    list                 list all keys in the current or specified CLUSTER_FSCK_ENV
+    new                  create a yaml file for your current CLUSTER_FSCK_ENV or specified CLUSTER_FSCK_ENV
+    override             will copy down the remote config and create a directory clusterfsck/:CLUSTER_FSCK_ENV/:key that will be used by default over the remote
+
+  GLOBAL OPTIONS:
+
+    -h, --help
+        Display help documentation
+
+    -v, --version
+        Display version information
+
+    -t, --trace
+        Display backtrace when an error occurs
+```
+
+Please help us improve this documentation with pull requests or feedback on where it needs work!
 
 ## Usage
 
