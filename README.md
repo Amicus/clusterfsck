@@ -1,12 +1,12 @@
-# Cluster::Fsck
+# ClusterFsck
 
-TODO: Write a gem description
+ClusterFsck manages configurable settings and sensitive login information across any number of separate or related projects by reading writing simple values or arrays/hashes of data to and from YAML files stored on Amazon S3. It also allows centrally overriding or changing these on a per environment basis.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'cluster-fsck'
+    gem 'clusterfsck'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install cluster-fsck
+    $ gem install clusterfsck
 
 
 ### setup your credential file
@@ -55,11 +55,11 @@ reader.read[:api_key] # loads config_bucket/cluster_fsck_env/stripe and returns 
 #### From the command line
 The first time you run ClusterFsck through it's CLI, it will pull its
 configuration from one of a few locations if you configured it manually,
-or prompt you to accept a generated bucket name (or enter your own) and to 
+or prompt you to accept a generated bucket name (or enter your own) and to
 provide AWS keys, and then store the configuration for you in `~/.clusterfsck`.
 
-The other locations it checks for its config are `/usr/clusterfsck` and in 
-the local directory where it was run from, `./.clusterfsck`, checking usr, then 
+The other locations it checks for its config are `/usr/clusterfsck` and in
+the local directory where it was run from, `./.clusterfsck`, checking usr, then
 home, then local.  It also looks for S3 keys in a `~/.fog` file and for any or all
 of its config keys in environment variables.  It will also check if the
 bucket exists and offer to create it if it does not.
