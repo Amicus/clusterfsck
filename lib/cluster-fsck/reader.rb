@@ -1,28 +1,28 @@
-module ClusterFuck
+module ClusterFsck
   class Reader
     include S3Methods
 
-    LOCAL_OVERRIDE_DIR = "cluster-fuck"
+    LOCAL_OVERRIDE_DIR = "cluster-fsck"
     SHARED_ENV = "shared"
 
 
-    attr_reader :amicus_env, :key, :version_count
+    attr_reader :cluster_fsck_env, :key, :version_count
     def initialize(key, opts={})
       @key = key
-      @amicus_env = opts[:amicus_env] || ClusterFuck.amicus_env
+      @cluster_fsck_env = opts[:cluster_fsck_env] || ClusterFsck.cluster_fsck_env
       @ignore_local = opts[:ignore_local]
     end
 
-    def set_amicus_env_to_shared_unless_key_found!
+    def set_cluster_fsck_env_to_shared_unless_key_found!
       unless has_local_override? or stored_object.exists?
-        original_amicus_env = @amicus_env
-        @amicus_env = SHARED_ENV
-        raise KeyDoesNotExistError, "there was no #{key} in either #{original_amicus_env} or #{SHARED_ENV}" unless stored_object(true).exists?
+        original_cluster_fsck_env = @cluster_fsck_env
+        @cluster_fsck_env = SHARED_ENV
+        raise KeyDoesNotExistError, "there was no #{key} in either #{original_cluster_fsck_env} or #{SHARED_ENV}" unless stored_object(true).exists?
       end
     end
 
     def read(opts = {})
-      set_amicus_env_to_shared_unless_key_found!
+      set_cluster_fsck_env_to_shared_unless_key_found!
       yaml = data_for_key(opts)
       if yaml
         @version_count = stored_object.versions.count unless has_local_override?

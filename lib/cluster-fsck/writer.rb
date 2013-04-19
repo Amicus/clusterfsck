@@ -1,11 +1,11 @@
-module ClusterFuck
+module ClusterFsck
   class Writer
     include S3Methods
 
-    attr_reader :amicus_env, :key
+    attr_reader :cluster_fsck_env, :key
     def initialize(key, opts = {})
       @key = key
-      @amicus_env = opts[:amicus_env] || ClusterFuck.amicus_env
+      @cluster_fsck_env = opts[:cluster_fsck_env] || ClusterFsck.cluster_fsck_env
     end
 
     #todo, thread safety and process safety please

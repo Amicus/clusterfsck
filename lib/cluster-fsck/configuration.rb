@@ -1,4 +1,4 @@
-module ClusterFuck
+module ClusterFsck
   class Configuration < Hashie::Mash
 
     def self.from_yaml(yaml)

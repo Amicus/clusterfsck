@@ -1,13 +1,13 @@
 require 'commander'
 require 'fileutils'
 
-module ClusterFuck
+module ClusterFsck
   module Commands
     class Override
-      include AmicusEnvArgumentParser
+      include ClusterFsckEnvArgumentParser
 
       def run_command(args, options = {})
-        set_amicus_env_and_key_from_args(args)
+        set_cluster_fsck_env_and_key_from_args(args)
 
         contents = reader.read(remote_only: true)
         FileUtils.mkdir_p(File.dirname(reader.local_override_path))
@@ -19,7 +19,7 @@ module ClusterFuck
 
     private
       def reader
-        @reader ||= ClusterFuck::Reader.new(key, amicus_env: amicus_env)
+        @reader ||= ClusterFsck::Reader.new(key, cluster_fsck_env: cluster_fsck_env)
       end
 
     end

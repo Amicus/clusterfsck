@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'commander'
-require 'cluster-fuck/cli'
+require 'cluster-fsck/cli'
 
-module ClusterFuck::Commands
+module ClusterFsck::Commands
   describe Edit do
     let(:key) { "test-key" }
     let(:mock_writer) { mock("writer", set: true) }
@@ -25,7 +25,7 @@ module ClusterFuck::Commands
     end
 
     before do
-      ClusterFuck::Reader.any_instance.stub(:s3_object).and_return(mock_s3_obj)
+      ClusterFsck::Reader.any_instance.stub(:s3_object).and_return(mock_s3_obj)
     end
 
     describe "with a key" do
