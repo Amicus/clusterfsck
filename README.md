@@ -30,9 +30,8 @@ The command line client also provides several additional commands, including lis
 
 You can run `clusterfsck --help` to get usage, currently that outputs as follows:
 
+`$> clusterfsck --help`
 ```bash
->clusterfsck --help
-
   NAME:
 
     clusterfsck
@@ -44,11 +43,12 @@ You can run `clusterfsck --help` to get usage, currently that outputs as follows
   COMMANDS:
 
     edit                 Bring up the YAML for key specified in the current CLUSTER_FSCK_ENV or specified CLUSTER_FSCK_ENV in your $editor
+    environments         List all environments defined in the bucket ClusterFsck is setup using
     help                 Display global or [command] help documentation.
     init                 Create ClusterFsck configuration file - called automatically from other commands if no config found.
-    list                 list all keys in the current or specified CLUSTER_FSCK_ENV
-    new                  create a yaml file for your current CLUSTER_FSCK_ENV or specified CLUSTER_FSCK_ENV
-    override             will copy down the remote config and create a directory clusterfsck/:CLUSTER_FSCK_ENV/:key that will be used by default over the remote
+    list                 List all keys in the current or specified CLUSTER_FSCK_ENV
+    new                  Create a yaml file for your current CLUSTER_FSCK_ENV or specified CLUSTER_FSCK_ENV
+    override             Will copy down the remote config and create a directory clusterfsck/:CLUSTER_FSCK_ENV/:key that will be used by default over the remote
 
   GLOBAL OPTIONS:
 
