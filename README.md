@@ -17,6 +17,17 @@ Or install it yourself as:
     $ gem install clusterfsck
 
 
+## Setup
+
+#### From the command line
+Type `clusterfsck init` to initiate ClusterFsck's setup assistant, or manually create a YAML file called `.clusterfsck` in your home or the root of your project directory with a CLUSTER_FSCK_BUCKET key set to the name of a bucket you have or will create to store configuration.  It also needs AWS keys, but if you already use AWS and have a ~/.fog file with credentials in it, it will find those, or they can be stored in the .clusterfsck file or in environment variables.
+
+Assuming you've completed the setup, you can run `clusterfsck new <project name>` to create your first clusterfsck managed configuration.  It will automatically call the edit command for you once it's created, and future edits will be done with `clusterfsck edit <project name>`.  It raises an error if no project name is provided.  See Usage guideline below for accessing the stored configuration from your code.
+
+See help on bin/clusterfsck and please help us improve this documentation with pull requests or feedback on where it needs work.
+
+## Usage
+
 ### setup your credential file
 If you are not on an EC2 instance then you should setup your ~/.clusterfsck file with the followng yaml:
 
@@ -40,10 +51,7 @@ If neither of those is present it will also look for a ~/.fog file with the foll
   :aws_secret_access_key: secret_key
 ```
 
-Otherwise, it expects you to be on an EC2 instance and not have to setup credentials.
-
-
-## Usage
+Otherwise, it expects keys to be present in whichever clusterfsck configuration file you're using, or to be running on an EC2 instance and not have to setup credentials.
 
 ### From Code
 
@@ -51,20 +59,6 @@ Otherwise, it expects you to be on an EC2 instance and not have to setup credent
 reader = ClusterFsck::Reader.new(:stripe)
 reader.read[:api_key] # loads config_bucket/cluster_fsck_env/stripe and returns the api_key from the hash
 ```
-
-#### From the command line
-The first time you run ClusterFsck through it's CLI, it will pull its
-configuration from one of a few locations if you configured it manually,
-or prompt you to accept a generated bucket name (or enter your own) and to
-provide AWS keys, and then store the configuration for you in `~/.clusterfsck`.
-
-The other locations it checks for its config are `/usr/clusterfsck` and in
-the local directory where it was run from, `./.clusterfsck`, checking usr, then
-home, then local.  It also looks for S3 keys in a `~/.fog` file and for any or all
-of its config keys in environment variables.  It will also check if the
-bucket exists and offer to create it if it does not.
-
-See help on bin/clusterfsck
 
 The ClusterFsck::Reader instance will automatically load the configuration for
 the environment stored in the CLUSTER_FSCK_ENV environment variable on the host.

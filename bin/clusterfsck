@@ -9,6 +9,13 @@ program :description, 'Filebased S3 Cofiguration Kontrol for Clusters, by Amicus
 
 #TODO: (topper) - fill in the help stuff
 
+command :'init' do |c|
+  c.syntax = 'clusterfsck init'
+  c.summary = 'Create ClusterFsck configuration file - called automatically from other commands if no config found.'
+  c.description = 'clusterfsck init'
+  c.when_called ClusterFsck::Commands::Setup, :run_command
+end
+
 command :edit do |c|
   c.syntax = 'clusterfsck edit [options]'
   c.summary = 'Bring up the YAML for key specified in the current CLUSTER_FSCK_ENV or specified CLUSTER_FSCK_ENV in your $editor'
@@ -19,12 +26,12 @@ command :edit do |c|
   c.when_called ClusterFsck::Commands::Edit, :run_command
 end
 
-command :create do |c|
-  c.syntax = 'clusterfsck create [options]'
+command :new do |c|
+  c.syntax = 'clusterfsck new [options]'
   c.summary = 'create a yaml file for your current CLUSTER_FSCK_ENV or specified CLUSTER_FSCK_ENV'
-  c.description = 'clusterfsck create [cluster_fsck_env] key'
-  c.example 'create stripe key in current CLUSTER_FSCK_ENV', 'clusterfsck create stripe'
-  c.example 'create stripe key in staging CLUSTER_FSCK_ENV', 'clusterfsck create staging stripe'
+  c.description = 'clusterfsck new [cluster_fsck_env] key'
+  c.example 'create stripe key in current CLUSTER_FSCK_ENV', 'clusterfsck new stripe'
+  c.example 'create stripe key in staging CLUSTER_FSCK_ENV', 'clusterfsck new staging stripe'
   c.when_called ClusterFsck::Commands::Create, :run_command
 end
 

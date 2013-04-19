@@ -7,6 +7,7 @@ module ClusterFsck
       include ClusterFsckEnvArgumentParser
 
       def run_command(args, options = Hashie::Mash.new)
+        raise ArgumentError, "must provide a project name" if args.empty?
         set_cluster_fsck_env_and_key_from_args(args)
 
         @options = options
