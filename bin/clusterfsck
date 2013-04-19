@@ -2,7 +2,7 @@
 require 'commander/import'
 
 $LOAD_PATH.unshift(File.join(File.expand_path(File.dirname(__FILE__)), "../lib"))
-require "cluster-fsck/cli"
+require "clusterfsck/cli"
 
 program :version, ClusterFsck::VERSION
 program :description, 'Filebased S3 Cofiguration Kontrol for Clusters, by Amicus'

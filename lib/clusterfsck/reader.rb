@@ -2,7 +2,7 @@ module ClusterFsck
   class Reader
     include S3Methods
 
-    LOCAL_OVERRIDE_DIR = "cluster-fsck"
+    LOCAL_OVERRIDE_DIR = "clusterfsck"
     SHARED_ENV = "shared"
 
 

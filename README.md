@@ -18,7 +18,7 @@ Or install it yourself as:
 
 
 ### setup your credential file
-If you are not on an EC2 instance then you should setup your ~/.cluster-fsck file with the followng yaml:
+If you are not on an EC2 instance then you should setup your ~/.clusterfsck file with the followng yaml:
 
 ```yaml
 :access_key_id: access_key

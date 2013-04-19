@@ -39,7 +39,7 @@ module ClusterFsck
       }
     end
 
-    describe "when there is a ~/.fog file but no ~/.cluster-fsck" do
+    describe "when there is a ~/.fog file but no ~/.clusterfsck" do
       before do
         File.stub(:expand_path).with(CredentialGrabber::FOG_PATH).and_return(CredentialGrabber::FOG_PATH)
         credential_grabber.should_receive(:exists?).with(CredentialGrabber::FOG_PATH).and_return(true)
@@ -54,7 +54,7 @@ module ClusterFsck
       end
     end
 
-    describe "when there is a ~/.cluster-fsck config and with or without a ~/.fog file" do
+    describe "when there is a ~/.clusterfsck config and with or without a ~/.fog file" do
       before do
         credential_grabber.stub(:exists?).with(true)
         ClusterFsck::CLUSTER_FSCK_CONFIG.should_receive(:[]).at_least(:once)
@@ -63,7 +63,7 @@ module ClusterFsck
           .with('AWS_SECRET_ACCESS_KEY').and_return(cf_credentials[:secret_access_key])
       end
 
-      it "should return the cluster-fsck credentials" do
+      it "should return the clusterfsck credentials" do
         credential_grabber.find.should == cf_credentials
       end
       it "should return the credentials" do
@@ -78,7 +78,7 @@ module ClusterFsck
         File.stub(:expand_path).with(CredentialGrabber::FOG_PATH).and_return(CredentialGrabber::FOG_PATH)
       end
 
-      it "should return the cluster-fsck credentials" do
+      it "should return the clusterfsck credentials" do
         credential_grabber.find.should == env_credentials
       end
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'commander'
-require 'cluster-fsck/cli'
+require 'clusterfsck/cli'
 
 module ClusterFsck::Commands
   describe Override do

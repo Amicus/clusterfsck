@@ -1,6 +1,5 @@
 source 'http://rubygems.org'
 
-# Specify your gem's dependencies in cluster-fsck.gemspec
 gemspec
 
 group :test do

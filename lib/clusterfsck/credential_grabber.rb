@@ -2,7 +2,7 @@ module ClusterFsck
 
   class CredentialGrabber
     FOG_PATH = "~/.fog"
-    CF_PATH = "~/.cluster-fsck"
+    CF_PATH = "~/.clusterfsck"
 
     def self.find
       new.find

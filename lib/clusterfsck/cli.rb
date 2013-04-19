@@ -1,4 +1,4 @@
-require_relative "../cluster-fsck"
+require_relative "../clusterfsck"
 require_relative "commands/cluster_fsck_env_argument_parser"
 require_relative "commands/edit"
 require_relative "commands/create"
