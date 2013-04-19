@@ -1,1 +1,1 @@
-rvm 1.9.3@cluster-fsck --create
+rvm 1.9.3@clusterfsck --create
