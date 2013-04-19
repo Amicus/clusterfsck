@@ -20,30 +20,31 @@ Or install it yourself as:
 ## Setup
 
 #### From the command line
-Type `clusterfsck init` to initiate ClusterFsck's setup assistant, or manually create a YAML file called `.clusterfsck` in your home or the root of your project directory with a CLUSTER_FSCK_BUCKET key set to the name of a bucket you have or will create to store configuration.  It also needs AWS keys, but if you already use AWS and have a ~/.fog file with credentials in it, it will find those, or they can be stored in the .clusterfsck file or in environment variables.
+Type `clusterfsck init` to initiate ClusterFsck's setup assistant, or manually create a YAML file called `.clusterfsck` in your home or the root of your project directory with a `CLUSTER_FSCK_BUCKET` key set to the name of a bucket you have or will create to store configuration.  It also needs AWS keys, but if you already use AWS and have a ~/.fog file with credentials in it, it will find those, or they can be stored in the .clusterfsck file or in environment variables.
 
-Assuming you've completed the setup, you can run `clusterfsck new <project name>` to create your first clusterfsck managed configuration.  It will automatically call the edit command for you once it's created, and future edits will be done with `clusterfsck edit <project name>`.  It raises an error if no project name is provided.  See Usage guideline below for accessing the stored configuration from your code.
+Assuming you've completed the setup, you can run `clusterfsck new <project name>` to create your first clusterfsck managed configuration.  It will automatically call the edit command for you once it's created, and future edits will be done with `clusterfsck edit <project name>`, using the editor defined in `$EDITOR` (not tested on windows, pull requests welcome).  It raises an error if no project name is provided.  See Usage guideline below for accessing the stored configuration from your code.
 
-See help on bin/clusterfsck and please help us improve this documentation with pull requests or feedback on where it needs work.
+By default it sets the `CLUSTER_FSCK_ENV` to `development`, much like Rails, but you can set to anything.  If your system is not yet in production, or you have many settings the same between development and staging/production, you may wish to change the default `CLUSTER_FSCK_ENV` to `shared`.  A `ClusterFsck::Reader` instance will look in it's environment's project file first for any key, and if not found, it will check in the shared environments's projects.
+
+See help at `bin/clusterfsck --help` and please help us improve this documentation with pull requests or feedback on where it needs work.
 
 ## Usage
 
 ### setup your credential file
-If you are not on an EC2 instance then you should setup your ~/.clusterfsck file with the followng yaml:
-
-```yaml
-:access_key_id: access_key
-:secret_access_key: secret_key
-```
-
-If that's not present it will also look for ENV variables as below.  Both must be defined to be used:
+You should probably run automated setup as a first step, but ClusterFsck checks for all it's settings first in
+ENV variables as below.  For AWS keys, both access and secret keys must be defined or neither will be used:
 
 ```bash
   ENV['AWS_ACCESS_KEY_ID']
   ENV['AWS_SECRET_ACCESS_KEY']
 ```
 
-If neither of those is present it will also look for a ~/.fog file with the following syntax
+You may also define ClusterFsck's configuration this way:
+```bash
+  ENV['CLUSTER_FSCK_BUCKET']
+  ENV['CLUSTER_FSCK_ENV']
+```
+You don't need AWS keys defined running on EC2, but if not on EC2, then after checking for AWS keys in ENV variables, it will look for a `~/.fog` file with the following syntax
 
 ```yaml
 :default:
@@ -51,7 +52,14 @@ If neither of those is present it will also look for a ~/.fog file with the foll
   :aws_secret_access_key: secret_key
 ```
 
-Otherwise, it expects keys to be present in whichever clusterfsck configuration file you're using, or to be running on an EC2 instance and not have to setup credentials.
+After checking ENV variables and the `~/.fog` file, the only remaining option is to be defined in the `~/.clusterfsck` file with the followng yaml:
+
+```yaml
+:AWS_ACCESS_KEY_ID: access_key
+:AWS_SECRET_ACCESS_KEY: secret_key
+:CLUSTER_FSCK_BUCKET: bucket_name
+:CLUSTER_FSCK_ENV: environment //probably development, production, staging or shared
+```
 
 ### From Code
 
