@@ -2,28 +2,28 @@ module ClusterFsck
   module Setup
     def self.config
       puts <<-UI
-        ClusterFsck stores your configuration(s) in an S3 bucket, which must have a unique (global) name.
+        ClusterFsck stores your configuration(s) in an S3 bucket, which must have a globally unique name.
         The name will be stored in `#{ClusterFsck::CLUSTER_FSCK_PATHS[2]}` on this machine, and should be placed in
         `#{ClusterFsck::CLUSTER_FSCK_PATHS[1]}` on your production box (with a different ENV setting if desired).
         It may also be overridden on a per project basis by creating a `#{ClusterFsck::CLUSTER_FSCK_PATHS[0]}`
-        file in the project root. The bucket and ENV setting are first checked from *nix environment
-        variables, so these can override file settings as well.  Bucket is read from CLUSTER_FSCK_BUCKET
+        file in the project root. The bucket and ENV setting are first checked from environment
+        variables, so you can set the environment to override the files. The bucket is read from CLUSTER_FSCK_BUCKET
         and the environment (production, staging, development, etc) is read from CLUSTER_FSCK_ENV.
       UI
-      unless ClusterFsck::CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_BUCKET']
+      unless ClusterFsck::CLUSTER_FSCK_CONFIG['cluster_fsck_bucket']
         set_bucket_name
       end
       unless ClusterFsck::CredentialGrabber.find
         set_aws_keys
       end
-      unless ClusterFsck::S3Methods.s3.buckets[ClusterFsck::CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_BUCKET']].exists?
+      unless ClusterFsck::S3Methods.s3.buckets[ClusterFsck::CLUSTER_FSCK_CONFIG['cluster_fsck_bucket']].exists?
         warn_create_bucket
       end
-      ClusterFsck::CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_ENV'] ||= ClusterFsck.default_env
+      ClusterFsck::CLUSTER_FSCK_CONFIG['cluster_fsck_env'] ||= ClusterFsck.default_env
       File.open(File.expand_path(ClusterFsck::CLUSTER_FSCK_PATHS[2]), 'w') do |f|
         f.write(YAML.dump(ClusterFsck.config_hash))
       end
-      ClusterFsck::CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_BUCKET']
+      ClusterFsck::CLUSTER_FSCK_CONFIG['cluster_fsck_bucket']
     end
 
     def self.set_bucket_name
@@ -33,12 +33,12 @@ module ClusterFsck
         #{random_name}
       UI
       input_name = ask("bucket name: ")
-      CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_BUCKET'] = input_name.empty? ? random_name : input_name
+      CLUSTER_FSCK_CONFIG['cluster_fsck_bucket'] = input_name.empty? ? random_name : input_name
     end
 
     def self.set_aws_keys
-      CLUSTER_FSCK_CONFIG['AWS_ACCESS_KEY_ID'] = ask("Enter your AWS access key: ")
-      CLUSTER_FSCK_CONFIG['AWS_SECRET_ACCESS_KEY'] = ask("Enter your AWS secret access key: ")
+      CLUSTER_FSCK_CONFIG['aws_access_key_id'] = ask("Enter your AWS access key: ")
+      CLUSTER_FSCK_CONFIG['aws_secret_access_key'] = ask("Enter your AWS secret access key: ")
     end
 
     def self.warn_create_bucket
