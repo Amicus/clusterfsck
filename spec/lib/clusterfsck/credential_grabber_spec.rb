@@ -58,9 +58,9 @@ module ClusterFsck
       before do
         credential_grabber.stub(:exists?).with(true)
         ClusterFsck::CLUSTER_FSCK_CONFIG.should_receive(:[]).at_least(:once)
-          .with('AWS_ACCESS_KEY_ID').and_return(cf_credentials[:access_key_id])
+          .with('aws_access_key_id').and_return(cf_credentials[:access_key_id])
         ClusterFsck::CLUSTER_FSCK_CONFIG.should_receive(:[]).at_least(:once)
-          .with('AWS_SECRET_ACCESS_KEY').and_return(cf_credentials[:secret_access_key])
+          .with('aws_secret_access_key').and_return(cf_credentials[:secret_access_key])
       end
 
       it "should return the clusterfsck credentials" do

@@ -36,6 +36,10 @@ module ClusterFsck
       bucket.objects.with_prefix(cluster_fsck_env).collect(&:key)
     end
 
+    def all_environments
+      bucket.objects.map(&:key).map {|key| key.split('/').first }.uniq
+    end
+
     def full_s3_path(key)
       "#{cluster_fsck_env}/#{key}"
     end

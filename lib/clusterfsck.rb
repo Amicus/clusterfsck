@@ -24,11 +24,11 @@ module ClusterFsck
 
   def self.cluster_fsck_env
     raise "Configuration failure, check ~/.clusterfsck or other config values" unless config_bucket
-    @env ||= ENV['CLUSTER_FSCK_ENV'] || CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_ENV'] || default_env
+    @env ||= ENV['CLUSTER_FSCK_ENV'] || CLUSTER_FSCK_CONFIG['cluster_fsck_env'] || default_env
   end
 
   def self.config_bucket
-    @config_bucket ||= ENV['CLUSTER_FSCK_BUCKET'] || CLUSTER_FSCK_CONFIG['CLUSTER_FSCK_BUCKET'] || Setup.config
+    @config_bucket ||= ENV['CLUSTER_FSCK_BUCKET'] || CLUSTER_FSCK_CONFIG['cluster_fsck_bucket'] || Setup.config
   end
 
   def self.default_env

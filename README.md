@@ -1,6 +1,8 @@
 # ClusterFsck
 
-ClusterFsck manages configurable settings and sensitive login information across any number of separate or related projects by reading writing simple values or arrays/hashes of data to and from YAML files stored on Amazon S3. It also allows centrally overriding or changing these on a per environment basis.
+ClusterFsck manages configuration across any number of projects or servers by reading and writing simple YAML stored on Amazon S3. It also allows overriding these configs locally through files (e.g. so your tests don't need network).
+
+(not tested on windows, patches accepted)
 
 ## Installation
 
@@ -20,19 +22,26 @@ Or install it yourself as:
 ## Configuration & Setup
 
 #### From the command line
-Type `clusterfsck init` to initiate ClusterFsck's setup assistant, or manually create a YAML file called `.clusterfsck` in your home or the root of your project directory with a `CLUSTER_FSCK_BUCKET` key set to the name of a bucket you have or will create to store configuration.  It also needs AWS keys, but if you already use AWS and have a ~/.fog file with credentials in it, it will find those, or they can be stored in the .clusterfsck file or in environment variables.
+Type `clusterfsck init` to initiate ClusterFsck's setup assistant, or manually create a YAML file called `.clusterfsck` in your user's home directory or the root of your project with a `cluster_fsck_bucket` key set to the name of the bucket you want to use to store configuration. ClusterFsck will also need your aws credentials. Store those in the .clusterfsck file or pass those in using environment variables. In production, we recommend you use [IAM role-based access](http://aws.typepad.com/aws/2012/06/iam-roles-for-ec2-instances-simplified-secure-access-to-aws-service-apis-from-ec2.html).
 
-Assuming you've completed the setup, you can run `clusterfsck new <project name>` to create your first clusterfsck managed configuration.  It will automatically call the edit command for you once it's created, and future edits will be done with `clusterfsck edit <project name>`, using the editor defined in `$EDITOR` (not tested on windows, pull requests welcome).  It raises an error if no project name is provided.  See Usage guideline below for accessing the stored configuration from your code.
+Now, you can run `clusterfsck new <config name>` to create your first clusterfsck managed configuration.  It will automatically call the clusterfsck edit command for you. Future edits should be done with `clusterfsck edit <config name>`, using the editor defined in `$EDITOR`.  It raises an error if no config name is provided. See Usage below for accessing the config from code.
 
-By default it sets the `CLUSTER_FSCK_ENV` to `development`, much like Rails, but you can set to anything.  If your system is not yet in production, or you have many settings the same between development and staging/production, you may wish to change the default `CLUSTER_FSCK_ENV` to `shared`.  A `ClusterFsck::Reader` instance will look in it's environment's project file first for any key, and if not found, it will check in the shared environments's projects.
+Like Rails, clusterfsck defaults `CLUSTER_FSCK_ENV` to `development` but the environment can be set to any string. There is one 'special' environment `shared` that is where default configs are stored. If a config does not exist in the environment you request it, then clusterfsck will look in the shared environment and only if it does *not* exist, will it error.
 
-The command line client also provides several additional commands, including list, which lists config files in the current or specified `list`, and `override` which will copy down the files for the current environment, and use those local files (including any edits you make locally) in place of the S3 based configuration.  You can also use this option to develop locally without internet access.
+For example:
+`$> clusterfsck edit shared myconfig`
+edit... edit... edit...
+```ruby
+ENV['CLUSTERFSCK_ENV'] = 'production'
+ClusterFsck::Reader.new(:myconfig).read #will be anything you set in the shared myconfig
+```
+
+The command line client also provides several additional commands, including list, which lists config files in the current or specified `list`, and `override` which will copy down the files for the environment, and use those local files in place of the S3 based configuration.  You can use this option to develop locally without internet access. In general, the command line uses the default environment, but allows specifying an environment as the first argument.
 
 You can run `clusterfsck --help` to get usage, currently that outputs as follows:
 
+`$> clusterfsck --help`
 ```bash
->clusterfsck --help
-
   NAME:
 
     clusterfsck
@@ -44,11 +53,12 @@ You can run `clusterfsck --help` to get usage, currently that outputs as follows
   COMMANDS:
 
     edit                 Bring up the YAML for key specified in the current CLUSTER_FSCK_ENV or specified CLUSTER_FSCK_ENV in your $editor
+    environments         List all environments defined in the bucket ClusterFsck is setup using
     help                 Display global or [command] help documentation.
     init                 Create ClusterFsck configuration file - called automatically from other commands if no config found.
-    list                 list all keys in the current or specified CLUSTER_FSCK_ENV
-    new                  create a yaml file for your current CLUSTER_FSCK_ENV or specified CLUSTER_FSCK_ENV
-    override             will copy down the remote config and create a directory clusterfsck/:CLUSTER_FSCK_ENV/:key that will be used by default over the remote
+    list                 List all keys in the current or specified CLUSTER_FSCK_ENV
+    new                  Create a yaml file for your current CLUSTER_FSCK_ENV or specified CLUSTER_FSCK_ENV
+    override             Will copy down the remote config and create a directory clusterfsck/:CLUSTER_FSCK_ENV/:key that will be used by default over the remote
 
   GLOBAL OPTIONS:
 
@@ -62,39 +72,37 @@ You can run `clusterfsck --help` to get usage, currently that outputs as follows
         Display backtrace when an error occurs
 ```
 
-Please help us improve this documentation with pull requests or feedback on where it needs work!
+Please help us improve this documentation. Pull requests or feedback are very appreciated!
 
 ## Usage
 
 ### setup your credential file
-You should probably run automated setup as a first step, but ClusterFsck checks for all it's settings first in
-ENV variables as below.  For AWS keys, both access and secret keys must be defined or neither will be used:
+You should probably run automated setup as a first step, but ClusterFsck checks for all its settings first in
+ENV variables as below.  For AWS keys, both access and secret keys must be defined or neither will be used (which is awesome in production, use IAM roles!):
 
+You may also define ClusterFsck's configuration using environment variables:
 ```bash
+  ENV['CLUSTER_FSCK_BUCKET']
+  ENV['CLUSTER_FSCK_ENV']
   ENV['AWS_ACCESS_KEY_ID']
   ENV['AWS_SECRET_ACCESS_KEY']
 ```
 
-You may also define ClusterFsck's configuration this way:
-```bash
-  ENV['CLUSTER_FSCK_BUCKET']
-  ENV['CLUSTER_FSCK_ENV']
+After checking ENV variables, clusterfsck will look in './.clusterfsck','/usr/clusterfsck', or '~/.clusterfsck'] for the following yaml.
+
+```yaml
+:aws_access_key_id: access_key
+:aws_secret_access_key: secret_key
+:cluster_fsck_bucket: bucket_name
+:cluster_fsck_env: environment //probably development, production, staging or shared
 ```
-You don't need AWS keys defined running on EC2, but if not on EC2, then after checking for AWS keys in ENV variables, it will look for a `~/.fog` file with the following syntax
+
+If you do not define AWS in the environment variables, or the .clusterfsck file, then clusterfsck will check in a ~/.fog file for something that looks like this:
 
 ```yaml
 :default:
   :aws_access_key_id: access_key
   :aws_secret_access_key: secret_key
-```
-
-After checking ENV variables and the `~/.fog` file, the only remaining option is to be defined in the `~/.clusterfsck` file with the followng yaml:
-
-```yaml
-:AWS_ACCESS_KEY_ID: access_key
-:AWS_SECRET_ACCESS_KEY: secret_key
-:CLUSTER_FSCK_BUCKET: bucket_name
-:CLUSTER_FSCK_ENV: environment //probably development, production, staging or shared
 ```
 
 ### From Code
@@ -104,8 +112,7 @@ reader = ClusterFsck::Reader.new(:stripe)
 reader.read[:api_key] # loads config_bucket/cluster_fsck_env/stripe and returns the api_key from the hash
 ```
 
-The ClusterFsck::Reader instance will automatically load the configuration for
-the environment stored in the CLUSTER_FSCK_ENV environment variable on the host.
+The ClusterFsck::Reader instance will load the configuration for the environment stored in the CLUSTER_FSCK_ENV.
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)

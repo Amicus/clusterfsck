@@ -28,7 +28,7 @@ end
 
 command :new do |c|
   c.syntax = 'clusterfsck new [options]'
-  c.summary = 'create a yaml file for your current CLUSTER_FSCK_ENV or specified CLUSTER_FSCK_ENV'
+  c.summary = 'Create a yaml file for your current CLUSTER_FSCK_ENV or specified CLUSTER_FSCK_ENV'
   c.description = 'clusterfsck new [cluster_fsck_env] key'
   c.example 'create stripe key in current CLUSTER_FSCK_ENV', 'clusterfsck new stripe'
   c.example 'create stripe key in staging CLUSTER_FSCK_ENV', 'clusterfsck new staging stripe'
@@ -37,15 +37,23 @@ end
 
 command :list do |c|
   c.syntax = 'clusterfsck list'
-  c.summary = 'list all keys in the current or specified CLUSTER_FSCK_ENV'
+  c.summary = 'List all keys in the current or specified CLUSTER_FSCK_ENV'
   c.description = 'clusterfsck list [cluster_fsck_env]'
   c.example 'list keys in staging CLUSTER_FSCK_ENV', 'clusterfsck list staging'
   c.when_called ClusterFsck::Commands::List, :run_command
 end
 
+command :environments do |c|
+  c.syntax = 'clusterfsck environments'
+  c.summary = 'List all environments defined in the bucket ClusterFsck is setup using'
+  c.description = 'clusterfsck environments [cluster_fsck_env]'
+  c.example 'list all environments defined', 'clusterfsck environments'
+  c.when_called ClusterFsck::Commands::Environments, :run_command
+end
+
 command :override do |c|
   c.syntax = 'clusterfsck override [options]'
-  c.summary = 'will copy down the remote config and create a directory clusterfsck/:CLUSTER_FSCK_ENV/:key that will be used by default over the remote'
+  c.summary = 'Will copy down the remote config and create a directory clusterfsck/:CLUSTER_FSCK_ENV/:key that will be used by default over the remote'
   c.description = ''
   c.example 'override the staging stripe key in this working directory', 'clusterfsck override staging stripe'
   c.when_called ClusterFsck::Commands::Override, :run_command
