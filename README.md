@@ -112,7 +112,11 @@ reader = ClusterFsck::Reader.new(:stripe)
 reader.read[:api_key] # loads config_bucket/cluster_fsck_env/stripe and returns the api_key from the hash
 ```
 
-The ClusterFsck::Reader instance will load the configuration for the environment stored in the CLUSTER_FSCK_ENV.
+The ClusterFsck::Reader instance will load the configuration for the environment stored in the first defined CLUSTER_FSCK_ENV lookup location as described above.
+
+ClusterFsck is currently Ruby only, but any links or pull requests for other language implementations of the Reader module are welcome, and should be able to cooperate happily with the Ruby version.
+
+This code is MIT licensed, see LICENSE.txt file.
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
