@@ -9,10 +9,11 @@ require 'commander'
 module ClusterFsck
   CLUSTER_FSCK_PATHS = ['./.clusterfsck','/usr/clusterfsck','~/.clusterfsck']
 
-  CLUSTER_FSCK_CONFIG = CLUSTER_FSCK_PATHS.detect do |path_string|
-    path = File.expand_path(path_string)
-    YAML.load_file(path) if File.exists?(path)
+  CONFIG_PATH = CLUSTER_FSCK_PATHS.detect do |path_string|
+    File.exists?(File.expand_path(path_string))
   end
+
+  CLUSTER_FSCK_CONFIG = YAML.load(File.expand_path(CONFIG_PATH))
 
   def self.logger=(logger)
     @logger = logger
