@@ -57,9 +57,9 @@ module ClusterFsck
     describe "when there is a ~/.clusterfsck config and with or without a ~/.fog file" do
       before do
         credential_grabber.stub(:exists?).with(true)
-        ClusterFsck::CLUSTER_FSCK_CONFIG.should_receive(:[]).at_least(:once)
+        ClusterFsck.config_hash.should_receive(:[]).at_least(:once)
           .with('aws_access_key_id').and_return(cf_credentials[:access_key_id])
-        ClusterFsck::CLUSTER_FSCK_CONFIG.should_receive(:[]).at_least(:once)
+        ClusterFsck.config_hash.should_receive(:[]).at_least(:once)
           .with('aws_secret_access_key').and_return(cf_credentials[:secret_access_key])
       end
 

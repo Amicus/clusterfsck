@@ -9,10 +9,10 @@ require 'commander'
 module ClusterFsck
   CLUSTER_FSCK_PATHS = ['./.clusterfsck','/usr/clusterfsck','~/.clusterfsck']
 
-  CLUSTER_FSCK_CONFIG = CLUSTER_FSCK_PATHS.map do |path_string|
+  CLUSTER_FSCK_CONFIG = CLUSTER_FSCK_PATHS.detect do |path_string|
     path = File.expand_path(path_string)
     YAML.load_file(path) if File.exists?(path)
-  end.compact.first || {}
+  end
 
   def self.logger=(logger)
     @logger = logger
@@ -24,11 +24,11 @@ module ClusterFsck
 
   def self.cluster_fsck_env
     raise "Configuration failure, check ~/.clusterfsck or other config values" unless config_bucket
-    @env ||= ENV['CLUSTER_FSCK_ENV'] || CLUSTER_FSCK_CONFIG['cluster_fsck_env'] || default_env
+    @env ||= ENV['CLUSTER_FSCK_ENV'] || self.config_hash['cluster_fsck_env'] || default_env
   end
 
   def self.config_bucket
-    @config_bucket ||= ENV['CLUSTER_FSCK_BUCKET'] || CLUSTER_FSCK_CONFIG['cluster_fsck_bucket'] || Setup.config
+    @config_bucket ||= ENV['CLUSTER_FSCK_BUCKET'] || self.config_hash['cluster_fsck_bucket'] || Setup.config
   end
 
   def self.default_env
@@ -36,7 +36,7 @@ module ClusterFsck
   end
 
   def self.config_hash
-    CLUSTER_FSCK_CONFIG
+    CLUSTER_FSCK_CONFIG || {}
   end
 
 end

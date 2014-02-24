@@ -34,11 +34,11 @@ module ClusterFsck
     end
 
     def from_cluster_fsck_config
-      if ClusterFsck::CLUSTER_FSCK_CONFIG['aws_access_key_id'] &&
-         ClusterFsck::CLUSTER_FSCK_CONFIG['aws_secret_access_key']
+      if ClusterFsck.config_hash['aws_access_key_id'] &&
+         ClusterFsck.config_hash['aws_secret_access_key']
         {
-            access_key_id: ClusterFsck::CLUSTER_FSCK_CONFIG['aws_access_key_id'],
-            secret_access_key: ClusterFsck::CLUSTER_FSCK_CONFIG['aws_secret_access_key'],
+            access_key_id: ClusterFsck.config_hash['aws_access_key_id'],
+            secret_access_key: ClusterFsck.config_hash['aws_secret_access_key'],
         }
       end
     end
